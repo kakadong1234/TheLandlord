@@ -1,8 +1,15 @@
 <template>
-  	<div>
+  	<div> 
         <head-top signin-up='home'>
             <span slot='logo' class="head_logo"  @click="reload">ele.me</span>
-        </head-top>
+        </head-top> 
+     <swiper :options="swiperOption" class="mySwiper">
+        <swiper-slide v-for="slide in swiperSlides" class="mySwiperSlider">
+            <img src="http://d.lanrentuku.com/down/png/1712/12fugu-christmas-png/12christmas-png-06.png">
+            I'm Slide {{ slide }}
+        </swiper-slide>
+    <div class="swiper-pagination" slot="pagination"></div>
+    </swiper>
         <nav class="city_nav">
             <div class="city_tip">
                 <span>当前定位城市：</span>
@@ -37,7 +44,7 @@
                     </ul>
                 </li>
             </ul>
-        </section>
+        </section> -->
     </div>
 </template>
 
@@ -45,6 +52,8 @@
 import headTop from '../../components/header/head'
 import {ddConfig, getDdUserID, cityGuess, hotcity, groupcity, rePostVerify} from '../../service/getData'
 import '../../plugins/dingtalk.min.js'
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 export default {
     data(){
@@ -53,10 +62,23 @@ export default {
             guessCityid: '', //当前城市id
             hotcity: [],     //热门城市列表
             groupcity: {},   //所有城市列表
+            swiperOption: {
+                pagination: {
+                    el: '.swiper-pagination'
+                }
+            },
+            swiperSlides: [1, 2, 3, 4, 5]
+
         }
     },
 
 	mounted(){
+        setInterval(() => {
+        console.log('simulate async data')
+        if (this.swiperSlides.length < 10) {
+          this.swiperSlides.push(this.swiperSlides.length + 1)
+        }
+      }, 3000)
         //开始钉钉相关设置
         this.startDD()
         // 获取当前城市
@@ -77,7 +99,9 @@ export default {
     },
 
     components:{
-        headTop
+        headTop,
+        swiper,
+        swiperSlide
     },
 
     computed:{
@@ -154,6 +178,14 @@ export default {
         @include wh(2.3rem, 0.7rem);
         @include ct;
     }
+    .mySwiper{
+        background-color:yellow;
+        width: 80%;
+        .mySwiperSlider{
+            width: 100%;
+            height: 100%;
+        }
+    } 
     .city_nav{
         padding-top: 2.35rem;
         border-top: 1px solid $bc;
