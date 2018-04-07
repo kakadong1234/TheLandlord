@@ -1,7 +1,8 @@
 import App from '../App'
 const lhome = r => require.ensure([], () => r(require('../page/home/lhome')), 'lhome')
-
-
+const lsearch = r => require.ensure([], () => r(require('../page/search/lsearch')), 'lsearch')
+const lorder = r => require.ensure([], () => r(require('../page/order/lorder')), 'lorder')
+const lprofile = r => require.ensure([], () => r(require('../page/profile/lprofile')), 'lprofile')
 
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
@@ -61,12 +62,49 @@ export default [{
             path: '',
             redirect: '/lhome'
         },
+
         //首页 banner 条+ 应用列表
         {
             path: '/lhome',
             component: lhome
         },
 
+        //搜索页
+        {
+            path: '/lsearch/:geohash',
+            component: lsearch
+        },
+
+        //订单列表页
+        {
+            path: '/lorder',
+            component: lorder,
+            children: [{
+                path: 'orderDetail', //订单详情页
+                component: orderDetail,
+            }, ]
+        },
+        //个人信息页
+        {
+            path: '/lprofile',
+            component: lprofile,
+            children: [{
+                path: 'info', //个人信息详情页
+                component: info,
+                children: [{
+                    path: 'address',
+                    component: address,     //编辑地址
+                    children:[{
+                        path:'add',
+                        component:add,
+                        children:[{
+                            path:'addDetail',
+                            component:addDetail
+                        }]
+                    }]
+                }]
+            },]
+        },
 
         //首页城市列表页
         {
