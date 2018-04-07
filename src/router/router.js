@@ -1,4 +1,7 @@
 import App from '../App'
+const lhome = r => require.ensure([], () => r(require('../page/home/lhome')), 'lhome')
+
+
 
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
@@ -56,8 +59,15 @@ export default [{
         //地址为空时跳转home页面
         {
             path: '',
-            redirect: '/home'
+            redirect: '/lhome'
         },
+        //首页 banner 条+ 应用列表
+        {
+            path: '/lhome',
+            component: lhome
+        },
+
+
         //首页城市列表页
         {
             path: '/home',
