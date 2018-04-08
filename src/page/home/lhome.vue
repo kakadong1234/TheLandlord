@@ -3,26 +3,33 @@
         <head-top signin-up='home'>
             <span slot='logo' class="head_logo"  @click="reload">包租婆</span>
         </head-top> 
-        <swiper :options="swiperOption" class="mySwiper">
-            <swiper-slide v-for="slide in swiperSlides" :key="slide.index" class="mySwiperSlider">
-                <img :src="slide.imgUrl" class="swiperImg">
-            </swiper-slide>
-            <div class="swiper-pagination" slot="pagination"></div>
-        </swiper>
-        <div class="app_list_container">
-            <!-- <router-link :to="appItem.targetUrl" v-for="appItem in appList" :key="appItem.agentId" class="link_to_app">
-	            <figure>
-	                <img :src="appItem.appIcon">
-	                <figcaption>{{appItem.name}}</figcaption>
-	            </figure>
-	        </router-link> -->
+        <section class="swiper_slides_section" v-if="swiperSlides.length">
+            <swiper :options="swiperOption" class="mySwiper">
+                <swiper-slide v-for="slide in swiperSlides" :key="slide.index" class="mySwiperSlider">
+                    <img :src="slide.imgUrl" class="swiperImg">
+                </swiper-slide>
+                <div class="swiper-pagination" slot="pagination"></div>
+            </swiper>
+        </section> 
+        <section class="app_list_section">
             <a :href="appItem.targetUrl" v-for="appItem in appList" :key="appItem.agentId" class="link_to_app">
 	            <figure>
 	                <img :src="appItem.appIcon">
 	                <figcaption>{{appItem.name}}</figcaption>
 	            </figure>
 	        </a>
-        </div>
+        </section>
+        <section class="app_list_section">
+            <div>
+            <a :href="appItem.targetUrl" v-for="appItem in appList" :key="appItem.agentId" class="link_to_app">
+	            <figure>
+	                <img :src="appItem.appIcon">
+	                <figcaption>{{appItem.name}}</figcaption>
+	            </figure>
+	        </a>
+            </div>
+        </section>
+
         <foot-guide></foot-guide>
     </div>
 </template>
@@ -204,8 +211,10 @@ export default {
         //     height: 5%;
         // }
     } 
-    .app_list_container{
+    .app_list_section{
         width: 100%;
+        margin-top:.6rem;
+        background:$fc;
 		display:flex;
 		flex-wrap: wrap;
 		.link_to_app{
@@ -224,6 +233,13 @@ export default {
 			}
 		}
 	}
+    .room_section {
+         width: 100%;
+        margin-top:.6rem;
+        background:$fc;
+		display:flex;
+		flex-wrap: wrap;
+    }
     // .city_nav{
     //     padding-top: 2.35rem;
     //     border-top: 1px solid $bc;

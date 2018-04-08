@@ -1,34 +1,34 @@
  <template>
     <div class="order_page">
-        <head-top head-title="订单列表" go-back='true'></head-top>
+        <head-top head-title="租房列表" go-back='true'></head-top>
         <ul class="order_list_ul" v-load-more="loaderMore">
-            <li class="order_list_li" v-for="item in orderList" :key="item.id">
-                <img :src="imgBaseUrl + item.restaurant_image_url" class="restaurant_image">
+            <li class="order_list_li" v-for="item in tenementList" :key="item.ID">
+                <img :src="item.imgURL" class="restaurant_image">
                 <section class="order_item_right">
                     <section @click="showDetail(item)">
                         <header class="order_item_right_header">
                             <section class="order_header">
                                 <h4 >
-                                    <span class="ellipsis">{{item.restaurant_name}} </span>
+                                    <span class="ellipsis">{{item.address}} </span>
                                     <svg fill="#333" class="arrow_right">
                                         <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
                                     </svg>
                                 </h4>
-                                <p class="order_time">{{item.formatted_created_at}}</p>
+                                <p class="order_time">{{item.startLeaseDate}}</p>
                             </section>
                             <p class="order_status">
-                                {{item.status_bar.title}}
+                                {{item.payStatus}}
                             </p>
                         </header>
                         <section class="order_basket">
-                            <p class="order_name ellipsis">{{item.basket.group[0][0].name}}{{item.basket.group[0].length > 1 ? ' 等' + item.basket.group[0].length + '件商品' : ''}}</p>
-                            <p class="order_amount">¥{{item.total_amount.toFixed(2)}}</p>
+                            <!-- <p class="order_name ellipsis">{{item.basket.group[0][0].name}}{{item.basket.group[0].length > 1 ? ' 等' + item.basket.group[0].length + '件商品' : ''}}</p> -->
+                            <p class="order_amount">¥{{item.rentForMonth.toFixed(2)}}</p>
                         </section>
                     </section>
-                    <div class="order_again">
-                        <compute-time v-if="item.status_bar.title == '等待支付'" :time="item.time_pass"></compute-time>
+                    <!-- <div class="order_again">
+                        <compute-time v-if="item.payStatus == '未缴费'" :time="item.time_pass"></compute-time>
                         <router-link :to="{path: '/shop', query: {geohash, id: item.restaurant_id}}" tag="span" class="buy_again" v-else>再来一单</router-link>
-                    </div>
+                    </div> -->
                 </section>
             </li>
         </ul>
@@ -50,7 +50,7 @@
     import loading from 'src/components/common/loading'
     import {getImgPath} from 'src/components/common/mixin'
     import footGuide from 'src/components/footer/lfootGuide'
-    import {getOrderList} from 'src/service/getData'
+    import {getTenementList} from 'src/service/getData'
     import {loadMore} from 'src/components/common/mixin'
     import {imgBaseUrl} from 'src/config/env'
 
@@ -58,7 +58,7 @@
     export default {
       data(){
             return{
-                orderList: null, //订单列表
+                tenementList: null, //租房列表
                 offset: 0, 
                 preventRepeat: false,  //防止重复获取
                 showLoading: true, //显示加载动画
@@ -86,9 +86,10 @@
             ]),
             //初始化获取信息
             async initData(){
+                console.log(this.userInfo)
                 if (this.userInfo && this.userInfo.user_id) {
-                    let res = await getOrderList(this.userInfo.user_id, this.offset);
-                    this.orderList = [...res];
+                    let res = await getTenementList(this.userInfo.user_id, this.offset);
+                    this.tenementList = [...res];
                     this.hideLoading();
                 }else{
                     this.hideLoading();
@@ -103,8 +104,8 @@
                 this.showLoading = true;
                 this.offset += 10;
                 //获取信息
-                let res = await getOrderList(this.userInfo.user_id, this.offset);
-                this.orderList = [...this.orderList, ...res];
+                let res = await getTenementList(this.userInfo.user_id, this.offset);
+                this.tenementList = [...this.tenementList, ...res];
                 this.hideLoading();
                 if (res.length < 10) {
                     return
@@ -124,7 +125,7 @@
         },
         watch: {
             userInfo: function (value) {
-                if (value && value.user_id && !this.orderList) {
+                if (value && value.user_id && !this.tenementList) {
                     this.initData();
                 }
             }

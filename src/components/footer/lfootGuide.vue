@@ -9,8 +9,8 @@
             <span>搜索</span>
         </section>
         <section @click = "gotoAddress('/lorder')" class="guide_item">
-            <img src="../../images/order.png" class="icon_style">  
-            <span>订单</span>
+            <img src="../../images/tenement.png" class="icon_style">  
+            <span>租房</span>
         </section>
         <section @click = "gotoAddress('/lprofile')" class="guide_item">
             <img src="../../images/self.png" class="icon_style">  

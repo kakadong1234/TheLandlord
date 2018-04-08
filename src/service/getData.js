@@ -1,6 +1,49 @@
 import fetch from '../config/fetch'
 import {getStore} from '../config/mUtils'
 
+/**
+ * 手机号登录
+ */
+
+var sendLogin = (code, mobile, validate_token) => {
+	const user_id =  123
+	return new Promise(function(reslove, reject){
+		const userinfo = {
+			user_id,
+			username: '用户 a'
+		}
+		reslove(userinfo)
+	})
+};
+
+/**
+ * 获取租房列表
+ */
+export const getTenementList = (user_id, offset) => {
+	const limit = 10
+	return new Promise(function(reslove, reject){
+		const tenementList = []
+		[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(i){
+			const ID = offset + limit + i
+			const tenement = {
+				ID,
+				address: '地址是金科路' + ID + '号',
+				rentForMonth: 200.2,
+				imgURL: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523090336213&di=e7aa898e0fec45153a5d2c95a9941099&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D42952174%2C4038341886%26fm%3D214%26gp%3D0.jpg",
+				// status: 1, // 0表示未租, 1表示已租
+				startLeaseDate: '2018-03-21',
+				isNeedPay: true, //是否需要缴费
+				payStatus: '未缴费'
+			}
+			tenementList.push(tenement)
+		})
+		reslove(tenementList)
+	})
+};
+
+/**
+ * 获取appList
+ */
 export const getAppList = () => {
 	return new Promise(function(reslove, reject){
 		const appList = [
@@ -124,6 +167,9 @@ export const getAppList = () => {
 	})
 };
 
+/**
+ * 获取钉钉 config
+ */
 export const ddConfig = () => {
 	return new Promise(function(reslove, reject){
 		const data = {
@@ -137,6 +183,9 @@ export const ddConfig = () => {
 	})
 };
 
+/**
+ * 获取userID
+ */
 export const getDdUserID = (code) => {
 	return new Promise(function(reslove, reject){
 		const userid = 123
@@ -544,15 +593,15 @@ export const exChangeHongbao = (id, exchange_code, captcha_code) => fetch('/v1/u
 export const getUser = () => fetch('/v1/user', {user_id: getStore('user_id')});
 
 
-/**
- * 手机号登录
- */
+// /**
+//  * 手机号登录
+//  */
 
-var sendLogin = (code, mobile, validate_token) => fetch('/v1/login/app_mobile', {
-	code,
-	mobile,
-	validate_token
-}, 'POST');
+// var sendLogin = (code, mobile, validate_token) => fetch('/v1/login/app_mobile', {
+// 	code,
+// 	mobile,
+// 	validate_token
+// }, 'POST');
 
 
 /**

@@ -1,7 +1,7 @@
 import App from '../App'
 const lhome = r => require.ensure([], () => r(require('../page/home/lhome')), 'lhome')
 const lsearch = r => require.ensure([], () => r(require('../page/search/lsearch')), 'lsearch')
-const lorder = r => require.ensure([], () => r(require('../page/order/lorder')), 'lorder')
+const lorder = r => require.ensure([], () => r(require('../page/order/tenement')), 'lorder')
 const lprofile = r => require.ensure([], () => r(require('../page/profile/lprofile')), 'lprofile')
 
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')

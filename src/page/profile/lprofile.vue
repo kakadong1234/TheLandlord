@@ -45,7 +45,8 @@
                 </ul>
             </section>
             <section class="profile-1reTe">
-                <!-- 我的订单 -->
+                <!-- TODO: 只有房东可用看到 -->
+                <!-- 我的房源 -->
                 <router-link to='/order' class="myorder">
                     <aside>
                         <svg fill="#4aa5f0">
@@ -53,7 +54,7 @@
                         </svg>
                     </aside>
                     <div class="myorder-div">
-                        <span>我的订单</span>
+                        <span>我的房源</span>
                         <span class="myorder-divsvg">
                             <svg fill="#bbb">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
@@ -61,8 +62,9 @@
                         </span>
                     </div>
                 </router-link>
+
                 <!-- 积分商城 -->
-                <a href='https://home.m.duiba.com.cn/#/chome/index' class="myorder">
+                <!-- <a href='https://home.m.duiba.com.cn/#/chome/index' class="myorder">
                     <aside>
                         <svg fill="#fc7b53">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#point"></use>
@@ -76,9 +78,9 @@
                             </svg>
                         </span>
                     </div>
-                </a>
+                </a> -->
                 <!-- 饿了么会员卡 -->
-                <router-link to='/vipcard' class="myorder">
+                <!-- <router-link to='/vipcard' class="myorder">
                     <aside>
                         <svg fill="#ffc636">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#vip"></use>
@@ -92,7 +94,7 @@
                             </svg>
                         </span>
                     </div>
-                </router-link>
+                </router-link> -->
             </section>
             <section class="profile-1reTe">
                 <!-- 服务中心 -->
@@ -112,7 +114,7 @@
                     </div>
                 </router-link>
                 <!-- 下载饿了么APP -->
-                <router-link to='/download' class="myorder">
+                <!-- <router-link to='/download' class="myorder">
                     <aside>
                         <svg fill="#3cabff">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#download"></use>
@@ -126,7 +128,7 @@
                             </svg>
                         </span>
                     </div>
-                </router-link>
+                </router-link> -->
             </section>
         </section>
         <foot-guide></foot-guide>
