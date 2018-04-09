@@ -2,28 +2,56 @@ import fetch from '../config/fetch'
 import {getStore} from '../config/mUtils'
 
 const ALL_TENEMENT_LIST = []
-for(var i = 1; i <= 100; i++) {
-	const tenement = {
+for(var i = 1; i <= 300; i++) {
+	//基础属性
+	let tenement = {
 		ID: i,
 		address: '地址是金科路' + ID + '号',
 		rentForMonth: 200.2,
-		imgURL: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523090336213&di=e7aa898e0fec45153a5d2c95a9941099&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D42952174%2C4038341886%26fm%3D214%26gp%3D0.jpg",
-		startLeaseDate: '2018-03-21',
-		payStatus: '需缴费'
+		imgURL: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523090336213&di=e7aa898e0fec45153a5d2c95a9941099&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D42952174%2C4038341886%26fm%3D214%26gp%3D0.jpg"
 	}
 	tenement.status = i % 2 // 0表示未租, 1表示已租
-	let payStatus
-	switch (i % 3) {
-		case 0, 2: 
+	// 房东属性
+	const landlord = {
+		ID: i,
+		phone: '15372383031',
+		mail: '15372383031@126.com',
+		AliPayNumber: '123323213'
+	}
+	landlord.name = i%5 == 0 ? 'landlord' : 'landlord' + i
+	tenement = Object.assign(tenement, {
+		landlord
+	})
+	if(tenement.status === 1) { 
+		// 已租房才有 lease 属性
+		const lease = {
+			createLeaseDate: '2018-03-21', //起租时间
+			payDeadlineDay: '03',//缴费最后日期	
+		}
+		let payStatus
+		switch (i % 3) {
+			case 0, 2: 
 			payStatus = '需缴费'
 			break
-		case 1: 
+			case 1: 
 			payStatus = '已缴费'
 			break
-		default:
+			default:
 			console.log(i % 3)
+		}
+		lease.payStatus = payStatus
+		// 已租房才有 renter(租客) 属性
+		const renter = {
+			ID: i,
+			phone: '15372383031',
+			mail: '15372383031@126.com'
+		}
+		renter.name = i%4 == 0 ? 'renter' : 'renter' + i
+		tenement = Object.assign(tenement, {
+			lease,
+			renter
+		})
 	}
-	tenement.payStatus = payStatus
 	ALL_TENEMENT_LIST.push(tenement)
 }
 
