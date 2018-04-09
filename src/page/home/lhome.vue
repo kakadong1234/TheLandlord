@@ -19,17 +19,6 @@
 	            </figure>
 	        </a>
         </section>
-        <section class="app_list_section">
-            <div>
-            <a :href="appItem.targetUrl" v-for="appItem in appList" :key="appItem.agentId" class="link_to_app">
-	            <figure>
-	                <img :src="appItem.appIcon">
-	                <figcaption>{{appItem.name}}</figcaption>
-	            </figure>
-	        </a>
-            </div>
-        </section>
-
         <foot-guide></foot-guide>
     </div>
 </template>

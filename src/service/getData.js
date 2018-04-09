@@ -6,9 +6,10 @@ for(var i = 1; i <= 300; i++) {
 	//基础属性
 	let tenement = {
 		ID: i,
-		address: '地址是金科路' + ID + '号',
+		title: '浦东软件园100栋20' + i + '室',
+		address: '上海市浦东新区金科路' + i + '号',
 		rentForMonth: 200.2,
-		imgURL: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523090336213&di=e7aa898e0fec45153a5d2c95a9941099&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D42952174%2C4038341886%26fm%3D214%26gp%3D0.jpg"
+		imgURL: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523273935514&di=51911299a2d0fea0ee8f73b739a6a0c7&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fdesign%2F00%2F57%2F93%2F24%2Fs_1024_58bd1f5f4d5a6.png"
 	}
 	tenement.status = i % 2 // 0表示未租, 1表示已租
 	// 房东属性
@@ -30,11 +31,14 @@ for(var i = 1; i <= 300; i++) {
 		}
 		let payStatus
 		switch (i % 3) {
-			case 0, 2: 
+			case 0: 
 			payStatus = '需缴费'
 			break
 			case 1: 
 			payStatus = '已缴费'
+			break
+			case 2: 
+			payStatus = '需缴费'
 			break
 			default:
 			console.log(i % 3)
@@ -74,27 +78,15 @@ var sendLogin = (code, mobile, validate_token) => {
  * 获取租房列表
  */
 export const getTenementList = (user_id, offset) => {
-	const limit = 10
+	console.log('----%%%%%-----')
+	console.log(offset)
+	const limit = 20
 	return new Promise(function(reslove, reject){
 	const tenementList = ALL_TENEMENT_LIST.filter(function(tenement){
-		return tenement.status === 
+		return tenement.status === 1 
 	})
-
-		[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(i){
-			const ID = offset + limit + i
-			const tenement = {
-				ID,
-				address: '地址是金科路' + ID + '号',
-				rentForMonth: 200.2,
-				imgURL: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523090336213&di=e7aa898e0fec45153a5d2c95a9941099&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D42952174%2C4038341886%26fm%3D214%26gp%3D0.jpg",
-				// status: 1, // 0表示未租, 1表示已租
-				startLeaseDate: '2018-03-21',
-				isNeedPay: true, //是否需要缴费
-				payStatus: '未缴费'
-			}
-			tenementList.push(tenement)
-		})
-		reslove(tenementList)
+	console.log(tenementList.length)
+		reslove(tenementList.slice(offset, offset + limit))
 	})
 };
 

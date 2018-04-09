@@ -135,7 +135,8 @@ export const showBack = callback => {
 
     //判断是否达到目标点
     const showBackFun = () => {
-        if (document.body.scrollTop > 500) {
+        const relayScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        if (relayScrollTop > 500) {
             callback(true);
         }else{
             callback(false);

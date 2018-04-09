@@ -25,6 +25,7 @@ export const loadMore = {
 				}
 
 				el.addEventListener('touchstart', () => {
+					console.log('touchstart event')
 					height = heightEl.clientHeight;
 					if (scrollType == 2) {
 						height = height
@@ -35,16 +36,20 @@ export const loadMore = {
 				}, false)
 
 				el.addEventListener('touchmove', () => {
+					console.log('touchmove event')
 					loadMore();
 				}, false)
 
 				el.addEventListener('touchend', () => {
+					console.log('touchend event')
 					oldScrollTop = scrollEl.scrollTop;
 					moveEnd();
 				}, false)
 
 				const moveEnd = () => {
 					requestFram = requestAnimationFrame(() => {
+						console.log('oldScrollTop ' + oldScrollTop)
+						console.log('scrollEl.scrollTop is ' + scrollEl.scrollTop)
 						if (scrollEl.scrollTop != oldScrollTop) {
 							oldScrollTop = scrollEl.scrollTop;
 							moveEnd()
@@ -57,7 +62,8 @@ export const loadMore = {
 				}
 
 				const loadMore = () => {
-					if (scrollEl.scrollTop + windowHeight >= height + setTop + paddingBottom + marginBottom - scrollReduce) {
+					const relayScrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+					if (relayScrollTop + windowHeight >= height + setTop + paddingBottom + marginBottom - scrollReduce) {
 						binding.value();
 					}
 				}

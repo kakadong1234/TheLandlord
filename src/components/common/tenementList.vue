@@ -1,47 +1,23 @@
 <template>
 	<div class="shoplist_container">
-		<ul v-load-more="loaderMore" v-if="shopListArr.length" type="1">
-			<router-link :to="{path: 'shop', query:{geohash, id: item.id}}" v-for="item in shopListArr" tag='li' :key="item.id" class="shop_li">
+		<ul v-load-more="loaderMoreMethod" v-if="shopListArr.length" type="1">
+			<router-link :to="{path: 'shop', query:{geohash, id: item.ID}}" v-for="item in shopListArr" tag='li' :key="item.ID" class="shop_li">
 				<section>
-					<img :src="imgBaseUrl + item.image_path" class="shop_img">
+					<img :src="item.imgURL" class="shop_img">
 				</section>
 				<hgroup class="shop_right">
 					<header class="shop_detail_header">
-						<h4 :class="item.is_premium? 'premium': ''" class="" class="shop_title ellipsis">{{item.name}}</h4>
-						<ul class="shop_detail_ul">
-							<li v-for="item in item.supports" :key="item.id" class="supports">{{item.icon_name}}</li>
-						</ul>
+						<h4 class="shop_title">{{item.title}}</h4>
+						<div class="shop_detail_ul">
+							<span class="supports">{{item.lease.payStatus}}</span>
+						</div>
 					</header>
-					<h5 class="rating_order_num">
-						<section class="rating_order_num_left">
-							<section class="rating_section">
-								<rating-star :rating='item.rating'></rating-star>
-								<span class="rating_num">{{item.rating}}</span>
-							</section>
-							<section class="order_section">
-								月售{{item.recent_order_num}}单
-							</section>
-						</section>
-						<section class="rating_order_num_right">
-							<span class="delivery_style delivery_left" v-if="item.delivery_mode">{{item.delivery_mode.text}}</span>
-							<span class="delivery_style delivery_right" v-if="zhunshi(item.supports)">准时达</span>
-						</section>
-					</h5>
-					<h5 class="fee_distance">
-						<p class="fee">
-							¥{{item.float_minimum_order_amount}}起送 
-							<span class="segmentation">/</span>
-							{{item.piecewise_agent_fee.tips}}
-						</p>
-						<p class="distance_time">
-							<span v-if="Number(item.distance)">{{item.distance > 1000? (item.distance/1000).toFixed(2) + 'km': item.distance + 'm'}}
-								<span class="segmentation">/</span>
-							</span>
-							<span v-else>{{item.distance}}</span>
-							<span class="segmentation">/</span>
-							<span class="order_time">{{item.order_lead_time}}</span>
-						</p>
-					</h5>
+					<section class="fee_distance">
+						<span class="fee">租金: ¥ {{item.rentForMonth}}</span>
+					</section>
+					<section class="fee_distance">
+						<span class="fee">地址: {{item.address}}</span>
+					</section>
 				</hgroup>
 			</router-link>
 		</ul>
@@ -66,7 +42,7 @@
 <script>
 
 import {mapState} from 'vuex'
-import {shopList} from 'src/service/getData'
+import {shopList, getTenementList} from 'src/service/getData'
 import {imgBaseUrl} from 'src/config/env'
 import {showBack, animate} from 'src/config/mUtils'
 import {loadMore, getImgPath} from './mixin'
@@ -105,34 +81,48 @@ export default {
 	methods: {
 		async initData(){
 			//获取数据
-			let res = await shopList(this.latitude, this.longitude, this.offset, this.restaurantCategoryId);
+			// let res = await shopList(this.latitude, this.longitude, this.offset, this.restaurantCategoryId);
+			let res = await getTenementList('123' ,this.offset);
 			this.shopListArr = [...res];
-			if (res.length < 5) {
+			console.log(res.length)
+			if (res.length < 20) {
+				console.log('----*** ----')
 				this.touchend = true;
 			}
 			this.hideLoading();
+			console.log(this.preventRepeatReuqest)
 			//开始监听scrollTop的值，达到一定程度后显示返回顶部按钮
 			showBack(status => {
 				this.showBackStatus = status;
 			});
 		},
 		//到达底部加载更多数据
-		async loaderMore(){
-			console.log('loaderMore -- shopList ------ ')
+		async loaderMoreMethod(){
+			console.log('**************************loderMore------------------')
+			// this.touchend = false
+			// this.preventRepeatReuqest = false
 			console.log(this.touchend)
+			console.log('%%%%%%%%%%-----------------affasfasdf  ' + this.preventRepeatReuqest)
+			console.log(this.offset)
 			if (this.touchend) {
+				console.log('*************************1')
 				return
 			}
 			//防止重复请求
 			if (this.preventRepeatReuqest) {
+				console.log('*************************2')
 				return 
 			}
 			this.showLoading = true;
 			this.preventRepeatReuqest = true;
 
 			//数据的定位加20位
-			this.offset += 20;
-			let res = await shopList(this.latitude, this.longitude, this.offset, this.restaurantCategoryId);
+			console.log('abc-----' + this.offset)
+			this.offset = this.offset + 20;
+			// let res = await shopList(this.latitude, this.longitude, this.offset, this.restaurantCategoryId);
+			let res = await getTenementList('123' ,this.offset);
+			console.log('8fa8dsf8dasf8ds8fasd8f78adsf8asd7f8')
+			console.log(res)
 			this.hideLoading();
 			this.shopListArr = [...this.shopListArr, ...res];
 			//当获取数据小于20，说明没有更多数据，不需要再次请求数据
@@ -150,7 +140,8 @@ export default {
 		async listenPropChange(){
 			this.showLoading = true;
 			this.offset = 0;
-			let res = await shopList(this.latitude, this.longitude, this.offset, '', this.restaurantCategoryIds, this.sortByType, this.deliveryMode, this.supportIds);
+			// let res = await shopList(this.latitude, this.longitude, this.offset, '', this.restaurantCategoryIds, this.sortByType, this.deliveryMode, this.supportIds);
+			let res = await getTenementList('123' ,this.offset);
 			this.hideLoading();
 			//考虑到本地模拟数据是引用类型，所以返回一个新的数组
 			this.shopListArr = [...res];
@@ -225,17 +216,6 @@ export default {
 				@include font(0.65rem, 0.65rem, 'PingFangSC-Regular');
 				font-weight: 700;
 			}
-			.premium::before{
-				content: '品牌';
-				display: inline-block;
-				font-size: 0.5rem;
-				line-height: .6rem;
-				color: #333;
-				background-color: #ffd930;
-				padding: 0 0.1rem;
-				border-radius: 0.1rem;
-				margin-right: 0.2rem;
-			}
 			.shop_detail_ul{
 				display: flex;
 				transform: scale(.8);
@@ -249,70 +229,69 @@ export default {
 				}
 			}
 		}
-		.rating_order_num{
-			@include fj(space-between);
-			height: 0.6rem;
-			margin-top: 0.52rem;
-			.rating_order_num_left{
-				@include fj(flex-start);
-				.rating_section{
-					display: flex;
-					.rating_num{
-						@include sc(0.4rem, #ff6000);
-						margin: 0 0.2rem;
-					}
-				}
-				.order_section{
-					transform: scale(.8);
-					margin-left: -0.2rem;
-					@include sc(0.4rem, #666);
-				}
-			}
-			.rating_order_num_right{
-				display: flex;
-				align-items: center;
-				transform: scale(.7);
-				min-width: 5rem;
-				justify-content: flex-end;
-				margin-right: -0.8rem;
-				.delivery_style{
-					font-size: 0.4rem;
-					padding: 0.04rem 0.08rem 0;
-					border-radius: 0.08rem;
-					margin-left: 0.08rem;
-					border: 1px;
-				}
-				.delivery_left{
-					color: #fff;
-					background-color: $blue;
-					border: 0.025rem solid $blue;
-				}
-				.delivery_right{
-					color: $blue;
-					border: 0.025rem solid $blue;
-				}
-			}
-		}
+		// .rating_order_num{
+		// 	@include fj(space-between);
+		// 	height: 0.6rem;
+		// 	margin-top: 0.52rem;
+		// 	.rating_order_num_left{
+		// 		@include fj(flex-start);
+		// 		.rating_section{
+		// 			display: flex;
+		// 			.rating_num{
+		// 				@include sc(0.4rem, #ff6000);
+		// 				margin: 0 0.2rem;
+		// 			}
+		// 		}
+		// 		.order_section{
+		// 			transform: scale(.8);
+		// 			margin-left: -0.2rem;
+		// 			@include sc(0.4rem, #666);
+		// 		}
+		// 	}
+		// 	.rating_order_num_right{
+		// 		display: flex;
+		// 		align-items: center;
+		// 		transform: scale(.7);
+		// 		min-width: 5rem;
+		// 		justify-content: flex-end;
+		// 		margin-right: -0.8rem;
+		// 		.delivery_style{
+		// 			font-size: 0.4rem;
+		// 			padding: 0.04rem 0.08rem 0;
+		// 			border-radius: 0.08rem;
+		// 			margin-left: 0.08rem;
+		// 			border: 1px;
+		// 		}
+		// 		.delivery_left{
+		// 			color: #fff;
+		// 			background-color: $blue;
+		// 			border: 0.025rem solid $blue;
+		// 		}
+		// 		.delivery_right{
+		// 			color: $blue;
+		// 			border: 0.025rem solid $blue;
+		// 		}
+		// 	}
+		// }
 		.fee_distance{
 			margin-top: 0.52rem;
 			@include fj;
-			@include sc(0.5rem, #333);
 			.fee{
-				transform: scale(.9);
-				@include sc(0.5rem, #666);
+				// transform: scale(.9);
+				@include sc(0.3rem, #666);
 			}
-			.distance_time{
-				transform: scale(.9);
-				span{
-					color: #999;
-				}
-				.order_time{
-					color: $blue;
-				}
-				.segmentation{
-					color: #ccc;
-				}
-			}
+			// .distance_time{
+			// 	transform: scale(.9);
+			// 	span{
+			// 		color: #999;
+			// 	}
+			// 	.order_time{
+			// 		color: $blue;
+			// 	}
+			// 	.segmentation{
+			// 		color: #ccc;
+			// 	}
+			// }
 		}
 	}
 	.loader_more{
