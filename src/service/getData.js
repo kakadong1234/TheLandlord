@@ -1,6 +1,32 @@
 import fetch from '../config/fetch'
 import {getStore} from '../config/mUtils'
 
+const ALL_TENEMENT_LIST = []
+for(var i = 1; i <= 100; i++) {
+	const tenement = {
+		ID: i,
+		address: '地址是金科路' + ID + '号',
+		rentForMonth: 200.2,
+		imgURL: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523090336213&di=e7aa898e0fec45153a5d2c95a9941099&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D42952174%2C4038341886%26fm%3D214%26gp%3D0.jpg",
+		startLeaseDate: '2018-03-21',
+		payStatus: '需缴费'
+	}
+	tenement.status = i % 2 // 0表示未租, 1表示已租
+	let payStatus
+	switch (i % 3) {
+		case 0, 2: 
+			payStatus = '需缴费'
+			break
+		case 1: 
+			payStatus = '已缴费'
+			break
+		default:
+			console.log(i % 3)
+	}
+	tenement.payStatus = payStatus
+	ALL_TENEMENT_LIST.push(tenement)
+}
+
 /**
  * 手机号登录
  */
@@ -22,7 +48,10 @@ var sendLogin = (code, mobile, validate_token) => {
 export const getTenementList = (user_id, offset) => {
 	const limit = 10
 	return new Promise(function(reslove, reject){
-		const tenementList = []
+	const tenementList = ALL_TENEMENT_LIST.filter(function(tenement){
+		return tenement.status === 
+	})
+
 		[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function(i){
 			const ID = offset + limit + i
 			const tenement = {
