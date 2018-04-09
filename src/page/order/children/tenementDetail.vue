@@ -1,8 +1,6 @@
 <template>
     <div class='container'> 
-        <head-top signin-up='home'>
-            <span slot='logo' class="head_logo"  @click="reload">包租婆</span>
-        </head-top> 
+       <head-top head-title="租房详情" go-back='true'></head-top>
         <section class="swiper_slides_section" v-if="swiperSlides.length">
             <swiper :options="swiperOption" class="mySwiper">
                 <swiper-slide v-for="slide in swiperSlides" :key="slide.index" class="mySwiperSlider">
@@ -12,29 +10,30 @@
             </swiper>
         </section> 
         <section class="app_list_section">
-            <a :href="appItem.targetUrl" v-for="appItem in appList" :key="appItem.agentId" class="link_to_app">
-	            <figure>
-	                <img :src="appItem.appIcon">
-	                <figcaption>{{appItem.name}}</figcaption>
-	            </figure>
-	        </a>
+            <span> {{tenementDetail.title}}</span>
+            <span> {{tenementDetail.address}}</span>
+            <span> {{tenementDetail.des}}</span>
+            <span> 房东: {{tenementDetail.landlord.name}}</span>
         </section>
-        <foot-guide></foot-guide>
     </div>
 </template>
 
 <script>
-import headTop from '../../components/header/head'
+import headTop from '../../../components/header/head'
 import footGuide from 'src/components/footer/lfootGuide'
-import {getAppList, ddConfig, getDdUserID} from '../../service/getData'
-import '../../plugins/dingtalk.min.js'
+import {getTenemnetDetail, ddConfig, getDdUserID} from '../../../service/getData'
+import '../../../plugins/dingtalk.min.js'
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 export default {
     data(){
         return{
-            appList:[],
+            tenementDetail:{
+                landlord:{
+
+                }
+            },
             swiperOption: {
                 autoplay: {
                     stopOnLastSlide: false,
@@ -43,45 +42,21 @@ export default {
                     el: '.swiper-pagination'
                 }
             },
-            swiperSlides: [
-                {
-                    index: 0,
-                    imgUrl:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523090336213&di=e7aa898e0fec45153a5d2c95a9941099&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D42952174%2C4038341886%26fm%3D214%26gp%3D0.jpg',
-                },
-                {
-                    index: 1,
-                    imgUrl:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523090336213&di=e7aa898e0fec45153a5d2c95a9941099&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D42952174%2C4038341886%26fm%3D214%26gp%3D0.jpg',
-                },
-                                {
-                    index: 2,
-                    imgUrl:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523090336213&di=e7aa898e0fec45153a5d2c95a9941099&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D42952174%2C4038341886%26fm%3D214%26gp%3D0.jpg',
-                },
-                {
-                    index: 3,
-                    imgUrl:'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523090336213&di=e7aa898e0fec45153a5d2c95a9941099&imgtype=jpg&src=http%3A%2F%2Fimg4.imgtn.bdimg.com%2Fit%2Fu%3D42952174%2C4038341886%26fm%3D214%26gp%3D0.jpg',
-                },
-                
-            ]
+            swiperSlides: []
         }
     },
 
 	mounted(){
         //TODO: 获取 appList
-        getAppList().then(res => {
-            res.map(function(app){// TODO; corpId 要从缓存中拿
-                const corpid = 'ding31148f160c24897635c2f4657eb6378f';
-                app.targetUrl = 'dingtalk://dingtalkclient/action/switchtab?index=2&name=work&scene=1&corpid=' + corpid +'agentid=' + app.agentId;
-                return app;    
+        getTenemnetDetail(this.$route.params.orderID).then(res => {
+            this.tenementDetail = res;
+            this.swiperSlides = res.imgURLList.map(function(imgURL, index) {
+                return {
+                    index,
+                    imgUrl: imgURL 
+                }
             })
-            this.appList = res;
-            console.log(this.appList)
           })
-    //     setInterval(() => {
-    //     console.log('simulate async data')
-    //     if (this.swiperSlides.length < 10) {
-    //       this.swiperSlides.push(this.swiperSlides.length + 1)
-    //     }
-    //   }, 3000)
         //开始钉钉相关设置
         this.startDD()
     },
@@ -149,7 +124,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import '../../style/mixin';
+    @import '../../../style/mixin';
     .head_logo{
         left: 0.4rem;
         font-weight: 400;

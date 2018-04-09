@@ -7,9 +7,13 @@ for(var i = 1; i <= 300; i++) {
 	let tenement = {
 		ID: i,
 		title: '浦东软件园100栋20' + i + '室',
+		des: '房子很好房子很好房子很好房子很好房子很好房子很好房子很好房子很好',
 		address: '上海市浦东新区金科路' + i + '号',
 		rentForMonth: 200.2,
-		imgURL: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523273935514&di=51911299a2d0fea0ee8f73b739a6a0c7&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fdesign%2F00%2F57%2F93%2F24%2Fs_1024_58bd1f5f4d5a6.png"
+		imgURLList: [
+			"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523273935514&di=51911299a2d0fea0ee8f73b739a6a0c7&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fdesign%2F00%2F57%2F93%2F24%2Fs_1024_58bd1f5f4d5a6.png",
+			"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2313411144,683196051&fm=27&gp=0.jpg"
+		]
 	}
 	tenement.status = i % 2 // 0表示未租, 1表示已租
 	// 房东属性
@@ -19,7 +23,7 @@ for(var i = 1; i <= 300; i++) {
 		mail: '15372383031@126.com',
 		AliPayNumber: '123323213'
 	}
-	landlord.name = i%5 == 0 ? 'landlord' : 'landlord' + i
+	landlord.name = 'landlord' + i
 	tenement = Object.assign(tenement, {
 		landlord
 	})
@@ -87,6 +91,19 @@ export const getTenementList = (user_id, offset) => {
 	})
 	console.log(tenementList.length)
 		reslove(tenementList.slice(offset, offset + limit))
+	})
+};
+
+/**
+ * 获取租房详情
+ */
+export const getTenemnetDetail = (id) => {
+	console.log('id  is ' + id)
+	return new Promise(function(reslove, reject){
+	const tenement = ALL_TENEMENT_LIST.find(function(tenement){
+		return tenement.ID === parseInt(id) 
+	})
+		reslove(tenement)
 	})
 };
 

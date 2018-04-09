@@ -1,9 +1,9 @@
 <template>
 	<div class="shoplist_container">
 		<ul v-load-more="loaderMoreMethod" v-if="shopListArr.length" type="1">
-			<router-link :to="{path: 'shop', query:{geohash, id: item.ID}}" v-for="item in shopListArr" tag='li' :key="item.ID" class="shop_li">
+			<router-link :to="{path: 'lorder/' + item.ID}" v-for="item in shopListArr" tag='li' :key="item.ID" class="shop_li">
 				<section>
-					<img :src="item.imgURL" class="shop_img">
+					<img :src="item.imgURLList[1]" class="shop_img">
 				</section>
 				<hgroup class="shop_right">
 					<header class="shop_detail_header">

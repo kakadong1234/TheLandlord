@@ -3,6 +3,7 @@ const lhome = r => require.ensure([], () => r(require('../page/home/lhome')), 'l
 const lsearch = r => require.ensure([], () => r(require('../page/search/lsearch')), 'lsearch')
 const lorder = r => require.ensure([], () => r(require('../page/order/tenement')), 'lorder')
 const lprofile = r => require.ensure([], () => r(require('../page/profile/lprofile')), 'lprofile')
+const lorderDetail = r => require.ensure([], () => r(require('../page/order/children/tenementDetail')), 'lorderDetail')
 
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
@@ -79,10 +80,15 @@ export default [{
         {
             path: '/lorder',
             component: lorder,
-            children: [{
-                path: 'orderDetail', //订单详情页
-                component: orderDetail,
-            }, ]
+            // children: [{
+            //     path: 'lorderDetail', //订单详情页
+            //     component: lorderDetail,
+            // }, ]
+        },  
+
+        {
+            path: '/lorder/:orderID',
+            component: lorderDetail
         },
         //个人信息页
         {
