@@ -9,11 +9,11 @@
                 <div class="swiper-pagination" slot="pagination"></div>
             </swiper>
         </section> 
-        <section class="app_list_section">
-            <span> {{tenementDetail.title}}</span>
-            <span> {{tenementDetail.address}}</span>
-            <span> {{tenementDetail.des}}</span>
-            <span> 房东: {{tenementDetail.landlord.name}}</span>
+        <section class="detail_info_section">
+            <span class="title_span"> {{tenementDetail.title}}</span>
+            <span class="title_span"> {{tenementDetail.address}}</span>
+            <span class="title_span"> {{tenementDetail.des}}</span>
+            <span class="title_span"> 房东: {{tenementDetail.landlord.name}}</span>
         </section>
     </div>
 </template>
@@ -150,35 +150,17 @@ export default {
         //     height: 5%;
         // }
     } 
-    .app_list_section{
-        width: 100%;
-        margin-top:.6rem;
-        background:$fc;
-		display:flex;
-		flex-wrap: wrap;
-		.link_to_app{
-			width: 25%;
-			padding: 0.3rem 0rem;
-			@include fj(center);
-			figure{
-				img{
-					margin-bottom: 0.3rem;
-					@include wh(1.8rem, 1.8rem);
-				}
-				figcaption{
-					text-align: center;
-					@include sc(0.55rem, #666);
-				}
-			}
+	.detail_info_section{
+		@include fj;
+		align-items: center;
+		.title_span{
+			width: 8.5rem;
+			color: #333;
+			padding-top: .01rem;
+			@include font(0.65rem, 0.65rem, 'PingFangSC-Regular');
+			font-weight: 700;
 		}
 	}
-    .room_section {
-         width: 100%;
-        margin-top:.6rem;
-        background:$fc;
-		display:flex;
-		flex-wrap: wrap;
-    }
     // .city_nav{
     //     padding-top: 2.35rem;
     //     border-top: 1px solid $bc;

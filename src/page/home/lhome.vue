@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import {mapState, mapMutations} from 'vuex'
 import headTop from '../../components/header/head'
 import footGuide from 'src/components/footer/lfootGuide'
 import {getAppList, ddConfig, getDdUserID} from '../../service/getData'
@@ -94,6 +95,9 @@ export default {
     },
 
     computed:{
+        ...mapState([
+            'userInfo',
+        ]),
     },
 
     methods:{
