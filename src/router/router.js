@@ -85,11 +85,17 @@ export default [{
             //     component: lorderDetail,
             // }, ]
         },  
-
+        //租房详情
         {
             path: '/lorder/:orderID',
             component: lorderDetail
         },
+        //租房详情
+        {
+            path: '/lorder/:orderID/cost',
+            component: lorderDetail
+        },
+
         //个人信息页
         {
             path: '/lprofile',

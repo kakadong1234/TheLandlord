@@ -17,9 +17,37 @@
             </section>
             <div class="des_div"> {{tenementDetail.des}}</div>
         </section>
-        <section class="cost_container">
-            <div class="cost_num">房租: ¥{{tenementDetail.rentForMonth}}</div>
-            <div class="cost_title" @click="goToCostPage"> 去缴费 </div>
+        <section class="charge_container">
+            <div class="myorder-div" @click="goToRentChargePage">
+                <span>房租查询</span>
+                    <span class="myorder-divsvg">
+                        <svg fill="#bbb">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+                    </svg>
+                </span>
+            </div>
+              <div class="myorder-div" @click="goToElectricChargePage"> 
+                <span>电费查询</span>
+                    <span class="myorder-divsvg">
+                        <svg fill="#bbb">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+                    </svg>
+                </span>
+            </div>
+              <div class="myorder-div" @click="goToWaterChargePage">
+                <span>水费查询</span>
+                    <span class="myorder-divsvg">
+                        <svg fill="#bbb">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+                    </svg>
+                </span>
+            </div>
+        </section>
+        <div class="add_bill_cotntainer_heigh">
+        </div>
+        <section class="bill_container">
+            <div class="bill_num">欠费: ¥{{tenementDetail.rentForMonth}}</div>
+            <div class="bill_title" @click="goToBillPage"> 去缴费 </div>
         </section>
     </div>
 </template>
@@ -134,9 +162,21 @@ export default {
       //TODO:  弹框
     },
 
-    goToCostPage() {
+    goToBillPage() {
         //  this.$router.push('/order');
-         console.log("goToCostPage");
+         console.log("goToBillPage");
+    },
+
+    goToRentChargePage() {
+        console.log("goToRentChargePage");
+    },
+
+    goToElectricChargePage(){
+        console.log("goToElectricChargePage");
+    },
+
+    goToWaterChargePage(){
+        console.log("goToWaterChargePage");
     }
   }
 };
@@ -199,7 +239,32 @@ export default {
     @include sc(0.8rem, black);
   }
 }
-.cost_container{
+.charge_container{
+    margin-top:.8rem;
+    background:$fc; 
+    .myorder-div{
+        padding-left:1.6rem;
+        display:flex;
+        width:100%;
+        border-bottom:1px solid #f1f1f1;
+        padding:.433333rem .266667rem .433333rem 0;
+        @include sc(.7rem,#333);
+        justify-content:space-between;
+        span{
+            display:block;
+        }
+        .myorder-divsvg{
+            @include wh(.46667rem,.466667rem);
+            svg{
+                @include wh(100%,100%);
+            }
+        }
+    }
+}
+.add_bill_cotntainer_heigh{
+    height: 3rem;
+}
+.bill_container{
     position: fixed;
     z-index: 100;
     left: 0;
@@ -208,12 +273,12 @@ export default {
     @include wh(100%, 1.95rem);
     display: flex;
     background-color: #3d3d3f;
-    .cost_num{
+    .bill_num{
         @include ct;
         left: 0.5rem;
         @include sc(0.5rem, #fff);
     }
-    .cost_title{
+    .bill_title{
         @include ct;
         right: 0.3rem;
         @include sc(0.6rem, #fff);
