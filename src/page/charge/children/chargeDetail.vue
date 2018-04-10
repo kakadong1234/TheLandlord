@@ -1,54 +1,6 @@
 <template>
     <div class='container'> 
-       <head-top head-title="租房详情" go-back='true'></head-top>
-        <section class="swiper_slides_section" v-if="swiperSlides.length">
-            <swiper :options="swiperOption" class="mySwiper">
-                <swiper-slide v-for="slide in swiperSlides" :key="slide.index" class="mySwiperSlider">
-                    <img :src="slide.imgUrl" class="swiperImg">
-                </swiper-slide>
-                <div class="swiper-pagination" slot="pagination"></div>
-            </swiper>
-        </section> 
-        <section class="detail_info_section">
-            <div class="title_div"> {{tenementDetail.title}}</div>
-            <div  class="address_div"> 地址: {{tenementDetail.address}}</div>
-            <section class="landlord_section">
-                <div class="name_div" @click="showDetailLandlordInfo"> 房东: {{tenementDetail.landlord.name}}</div>
-            </section>
-            <div class="des_div"> {{tenementDetail.des}}</div>
-        </section>
-        <section class="charge_container">
-            <div class="myorder-div" @click="goToRentChargePage">
-                <span>房租查询</span>
-                    <span class="myorder-divsvg">
-                        <svg fill="#bbb">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                    </svg>
-                </span>
-            </div>
-              <div class="myorder-div" @click="goToElectricChargePage"> 
-                <span>电费查询</span>
-                    <span class="myorder-divsvg">
-                        <svg fill="#bbb">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                    </svg>
-                </span>
-            </div>
-              <div class="myorder-div" @click="goToWaterChargePage">
-                <span>水费查询</span>
-                    <span class="myorder-divsvg">
-                        <svg fill="#bbb">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                    </svg>
-                </span>
-            </div>
-        </section>
-        <div class="add_bill_cotntainer_heigh">
-        </div>
-        <section class="bill_container">
-            <div class="bill_num">欠费: ¥{{tenementDetail.rentForMonth}}</div>
-            <div class="bill_title" @click="goToBillPage"> 去缴费 </div>
-        </section>
+       <head-top :head-title="chargeType === 'rent' ? '房租详情': chargeType === 'water' ? '水费详情' : '电费详情' " go-back='true'></head-top>
     </div>
 </template>
 
@@ -67,6 +19,8 @@ import { swiper, swiperSlide } from "vue-awesome-swiper";
 export default {
   data() {
     return {
+      chargeType: this.$route.params.chargeType,
+      orderID: this.$route.params.orderID,
       tenementDetail: {
         landlord: {},
         renter: {}
@@ -79,14 +33,13 @@ export default {
           el: ".swiper-pagination"
         }
       },
-      swiperSlides: [],
-      orderID: this.$route.params.orderID
+      swiperSlides: []
     };
   },
 
   mounted() {
     //TODO: 获取 appList
-    getTenemnetDetail(this.orderID).then(res => {
+    getTenemnetDetail(this.$route.params.orderID).then(res => {
       this.tenementDetail = res;
       this.swiperSlides = res.imgURLList.map(function(imgURL, index) {
         return {
@@ -106,7 +59,9 @@ export default {
     footGuide
   },
 
-  computed: {},
+  computed: {
+
+  },
 
   methods: {
     //点击图标刷新页面
@@ -164,26 +119,20 @@ export default {
     },
 
     goToBillPage() {
-        console.log("goToBillPage" + this.orderID);
-        this.$router.push('/lorder/' + this.orderID + '/bill' );
+        //  this.$router.push('/order');
+         console.log("goToBillPage");
     },
 
     goToRentChargePage() {
         console.log("goToRentChargePage");
-        const chargeType = 'rent';
-        this.$router.push('/lorder/' + this.orderID + '/charge/' + chargeType );
     },
 
     goToElectricChargePage(){
         console.log("goToElectricChargePage");
-        const chargeType = 'electric';
-        this.$router.push('/lorder/' + this.orderID + '/charge/' + chargeType );
     },
 
     goToWaterChargePage(){
         console.log("goToWaterChargePage");
-        const chargeType = 'water';
-        this.$router.push('/lorder/' + this.orderID + '/charge/' + chargeType );
     }
   }
 };
