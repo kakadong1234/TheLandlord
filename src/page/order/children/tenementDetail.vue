@@ -10,10 +10,12 @@
             </swiper>
         </section> 
         <section class="detail_info_section">
-            <span class="title_span"> {{tenementDetail.title}}</span>
-            <span class="title_span"> {{tenementDetail.address}}</span>
-            <span class="title_span"> {{tenementDetail.des}}</span>
-            <span class="title_span"> 房东: {{tenementDetail.landlord.name}}</span>
+            <div class="title_div"> {{tenementDetail.title}}</div>
+            <div  class="address_div"> 地址: {{tenementDetail.address}}</div>
+            <section class="landlord_section">
+                <div class="name_div" @click="showDetailLandlordInfo"> 房东: {{tenementDetail.landlord.name}}</div>
+            </section>
+            <div class="des_div"> {{tenementDetail.des}}</div>
         </section>
     </div>
 </template>
@@ -117,6 +119,11 @@ export default {
                     });
                 })
             })
+        },
+
+        showDetailLandlordInfo(){
+            console.log('showDetailLandlordInfo')
+            //TODO:  弹框
         }
     }
 }
@@ -151,15 +158,35 @@ export default {
         // }
     } 
 	.detail_info_section{
-		@include fj;
-		align-items: center;
-		.title_span{
-			width: 8.5rem;
+        margin-top: 1.5rem;
+        margin-left: 0.4rem;
+        margin-right: 0.4rem;
+		// @include fj;
+		// align-items: center;
+		.title_div{
+			padding-top: .01rem;
+			@include sc(1.2rem, black);
+			font-weight: 200;
+        }
+        .address_div{
+            margin-top: 0.15rem;
+			padding-top: .01rem;
+			@include sc(0.8rem, black);
+        }
+        .landlord_section{
+            margin-top: 0.15rem;
+            padding-top: .01rem;
+            .name_div{
+                @include sc(0.8rem, blue);
+            }
+        }
+        .des_div{
+            margin-top: 0.15rem;
 			color: #333;
 			padding-top: .01rem;
-			@include font(0.65rem, 0.65rem, 'PingFangSC-Regular');
-			font-weight: 700;
-		}
+            @include sc(0.8rem, black);
+          
+        }
 	}
     // .city_nav{
     //     padding-top: 2.35rem;
