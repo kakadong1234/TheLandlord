@@ -1,7 +1,8 @@
 <template>
 	<div class="list_container">
 		<ul v-load-more="loaderMoreMethod" v-if="tenementListArr.length" type="1">
-			<router-link :to="{path: 'lorder/' + item.ID}" v-for="item in tenementListArr" tag='li' :key="item.ID" class="tenement_li">
+			<div v-for="item in tenementListArr" tag='li' :key="item.ID" class="tenement_li" @click="goToDetailPage(item.ID)">
+			<!-- <router-link :to="{path: 'lorder/' + item.ID}" v-for="item in tenementListArr" tag='li' :key="item.ID" class="tenement_li"> -->
 				<section>
 					<img :src="item.imgURLList[1]" class="tenement_img">
 				</section>
@@ -19,7 +20,8 @@
 						<span class="address">地址: {{item.address}}</span>
 					</section>
 				</hgroup>
-			</router-link>
+			<!-- </router-link> -->
+			</div>
 		</ul>
 		<ul v-else class="animation_opactiy">
 			<li class="list_back_li" v-for="item in 10" :key="item">
@@ -130,6 +132,11 @@ export default {
 		hideLoading(){
 			this.showLoading = false;
 		},
+
+		goToDetailPage(id) {
+			console.log("goToBillPage " + id);
+        	this.$router.push('/lorder/' + id );
+		}
 	},
 	watch: {
 	}

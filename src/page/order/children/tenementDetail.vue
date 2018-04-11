@@ -18,24 +18,16 @@
             <div class="des_div"> {{tenementDetail.des}}</div>
         </section>
         <section class="charge_container">
-            <div class="myorder-div" @click="goToRentChargePage">
-                <span>房租查询</span>
+            <div class="myorder-div" @click="goToBillPage">
+                <span>账单</span>
                     <span class="myorder-divsvg">
                         <svg fill="#bbb">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
                     </svg>
                 </span>
             </div>
-              <div class="myorder-div" @click="goToElectricChargePage"> 
-                <span>电费查询</span>
-                    <span class="myorder-divsvg">
-                        <svg fill="#bbb">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                    </svg>
-                </span>
-            </div>
-              <div class="myorder-div" @click="goToWaterChargePage">
-                <span>水费查询</span>
+            <div class="myorder-div" @click="goToDegreePage"> 
+                <span>水电表</span>
                     <span class="myorder-divsvg">
                         <svg fill="#bbb">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
@@ -45,10 +37,6 @@
         </section>
         <div class="add_bill_cotntainer_heigh">
         </div>
-        <section class="bill_container">
-            <div class="bill_num">欠费: ¥{{tenementDetail.rentForMonth}}</div>
-            <div class="bill_title" @click="goToBillPage"> 去缴费 </div>
-        </section>
     </div>
 </template>
 
@@ -168,22 +156,9 @@ export default {
         this.$router.push('/lorder/' + this.orderID + '/bill' );
     },
 
-    goToRentChargePage() {
-        console.log("goToRentChargePage");
-        const chargeType = 'rent';
-        this.$router.push('/lorder/' + this.orderID + '/charge/' + chargeType );
-    },
-
-    goToElectricChargePage(){
-        console.log("goToElectricChargePage");
-        const chargeType = 'electric';
-        this.$router.push('/lorder/' + this.orderID + '/charge/' + chargeType );
-    },
-
-    goToWaterChargePage(){
-        console.log("goToWaterChargePage");
-        const chargeType = 'water';
-        this.$router.push('/lorder/' + this.orderID + '/charge/' + chargeType );
+    goToDegreePage() {
+        console.log("goToDegreePage");
+        this.$router.push('/lorder/' + this.orderID + '/degree' );
     }
   }
 };
@@ -248,6 +223,8 @@ export default {
 }
 .charge_container{
     margin-top:.8rem;
+    margin-left: 0.4rem;
+    margin-right: 0.4rem;
     background:$fc; 
     .myorder-div{
         padding-left:1.6rem;
@@ -269,27 +246,7 @@ export default {
     }
 }
 .add_bill_cotntainer_heigh{
-    height: 3rem;
-}
-.bill_container{
-    position: fixed;
-    z-index: 100;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    @include wh(100%, 1.95rem);
-    display: flex;
-    background-color: #3d3d3f;
-    .bill_num{
-        @include ct;
-        left: 0.5rem;
-        @include sc(0.5rem, #fff);
-    }
-    .bill_title{
-        @include ct;
-        right: 0.3rem;
-        @include sc(0.6rem, #fff);
-    }
+    height: 1rem;
 }
 // .city_nav{
 //     padding-top: 2.35rem;

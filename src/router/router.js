@@ -4,7 +4,7 @@ const lsearch = r => require.ensure([], () => r(require('../page/search/lsearch'
 const lorder = r => require.ensure([], () => r(require('../page/order/tenement')), 'lorder')
 const lprofile = r => require.ensure([], () => r(require('../page/profile/lprofile')), 'lprofile')
 const lorderDetail = r => require.ensure([], () => r(require('../page/order/children/tenementDetail')), 'lorderDetail')
-const chargeDetail = r => require.ensure([], () => r(require('../page/charge/children/chargeDetail')), 'chargeDetail')
+const degree = r => require.ensure([], () => r(require('../page/degree/degree')), 'degree')
 const bill = r => require.ensure([], () => r(require('../page/bill/bill')), 'bill')
 
 
@@ -93,10 +93,10 @@ export default [{
             path: '/lorder/:orderID',
             component: lorderDetail
         },
-        //某个房子的费用(水电房)
+        //某个房子的水电表度数
         {
-            path: '/lorder/:orderID/charge/:chargeType',
-            component: chargeDetail
+            path: '/lorder/:orderID/degree',
+            component: degree
         },
         //某个房子的账单(水电房)
         {

@@ -1,28 +1,14 @@
 <template>
     <div class="profile_page">
-        <head-top go-back='true' head-title="账单"></head-top>
+        <head-top go-back='true' head-title="水电表"></head-top>
         <section class="charge_container">
-            <div class="myorder-div" @click="goToDetailBillPage(123)">
-                <span class="bill_type_img_span">
-                    <img src="../../images/rent.png" class="bill_type_img"> 
-                </span>
-                <span class='bill_momeny_span'>
-                    <div>房租</div>
-                    <div>¥200</div>
-                </span>
-                <span class="myorder-divsvg">
-                    <svg fill="#bbb">
-                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                    </svg>
-                </span>
-            </div>
             <div class="myorder-div" @click="goToDetailBillPage(123)"> 
                 <span class="bill_type_img_span">
                     <img src="../../images/elCharge.png" class="bill_type_img"> 
                 </span>
                 <span class='bill_momeny_span'>
-                    <div>电费</div>
-                    <div>¥100.1</div>
+                    <div>电表度数</div>
+                    <div>1009.12度</div>
                 </span>
                     <span class="myorder-divsvg">
                         <svg fill="#bbb">
@@ -35,8 +21,8 @@
                     <img src="../../images/waterCharge.png" class="bill_type_img"> 
                 </span>
                 <span class='bill_momeny_span'>
-                    <div>水费</div>
-                    <div>¥20.1</div>
+                    <div>水表度数</div>
+                    <div>20.1度</div>
                 </span>
                     <span class="myorder-divsvg">
                         <svg fill="#bbb">
@@ -46,11 +32,6 @@
             </div>
 
         </section>
-        <section class="bill_container">
-            <div class="bill_num">总欠费: ¥1000.1</div>
-            <div class="bill_title" @click="goToCreateOrderPage"> 去缴费 </div>
-        </section>
-        
     </div>
 </template>
 
@@ -74,7 +55,7 @@ export default {
     computed:{
         ...mapState([
             'userInfo',
-        ])
+        ]),
     },
 
     methods:{
@@ -83,27 +64,21 @@ export default {
         ]),
         initData(){
             if (this.userInfo && this.userInfo.user_id) {
-
+    
             }else{
-               
             }
         },
         goToDetailBillPage(id){
             console.log("goToDetailBillPage")
             console.log(id)
             // this.$router.push('/bill' );
-        },
-        goToCreateOrderPage(goodsList){
-            console.log("goToCreateOrderPage")
-            console.log(goodsList)
-            // this.$router.push('/order' );
-        }
+    },
     },
     watch: {
         userInfo: function (value){
             this.initData()
         }
-    }
+    },
 }
 
 </script>
@@ -141,24 +116,4 @@ export default {
         }
     }
     }
-    .bill_container{
-    position: fixed;
-    z-index: 100;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    @include wh(100%, 1.95rem);
-    display: flex;
-    background-color: #3d3d3f;
-    .bill_num{
-        @include ct;
-        left: 0.5rem;
-        @include sc(0.5rem, #fff);
-    }
-    .bill_title{
-        @include ct;
-        right: 0.3rem;
-        @include sc(0.6rem, #fff);
-    }
-}
 </style>
