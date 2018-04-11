@@ -11,7 +11,8 @@
         </section> 
         <section class="detail_info_section">
             <div class="title_div"> {{tenementDetail.title}}</div>
-            <div  class="address_div"> 地址: {{tenementDetail.address}}</div>
+            <div class="address_div"> 地址: {{tenementDetail.address}}</div>
+            <div class="rent_month_div"> 月租金: {{tenementDetail.rentForMonth}}</div>
             <section class="landlord_section">
                 <div class="name_div" @click="showDetailLandlordInfo"> 房东: {{tenementDetail.landlord.name}}</div>
             </section>
@@ -203,6 +204,11 @@ export default {
     font-weight: 200;
   }
   .address_div {
+    margin-top: 0.15rem;
+    padding-top: 0.01rem;
+    @include sc(0.8rem, black);
+  }
+  .rent_month_div {
     margin-top: 0.15rem;
     padding-top: 0.01rem;
     @include sc(0.8rem, black);
