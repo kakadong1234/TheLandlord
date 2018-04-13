@@ -4,17 +4,18 @@
         </head-top>
         <section class="charge_container">
             <div class="bill-div" v-for="billType in Object.keys(bill)" tag='li' :key="billType.ID" @click="goToBillListPage(billType)">
-                <img :src=getBillImg(billType) class="bill_type_img"> 
+                <img :src="showConfig[billType].billImgUrl" class="bill_type_img"> 
                 <span class="bill_momeny_span">
-                    <div class="bill_type_div">{{getBillType(billType)}}</div>
+                    <div class="bill_type_div">{{showConfig[billType].billTitle}}</div>
                     <div class="bill_number_div">未缴费账单数 :{{bill[billType].length}}</div>
                     <div class="bill_momeny_div">总计:¥{{getBillTotalCost(bill[billType])}}</div>
                 </span>
-                <img class='add_remove_img' :src=getAddorRemoveImg(billType) @click.stop="addOrRemoveBillList(billType)">
+                <img v-if="!showConfig[billType].isAddToPayment" class='add_remove_img' src="../../images/add.png" @click.stop="addOrRemoveBillList(billType)">
+                <img v-else class='add_remove_img' src="../../images/remove.png" @click.stop="addOrRemoveBillList(billType)">
             </div>
         </section>
         <section class="bill_container">
-            <div class="bill_num">总计:¥1000.1</div>
+            <div class="bill_num">总计:¥{{totalCost}}</div>
             <div class="bill_title" @click="goToCreateOrderPage"> 去缴费 </div>
         </section>
         
@@ -24,13 +25,31 @@
 <script>
 import headTop from 'src/components/header/head'
 import {mapState, mapMutations} from 'vuex'
-import shopList from 'src/components/common/shoplist'
 import {getBillList} from 'src/service/getData'
-
+import rentPng from '../../images/rent.png'
+import waterChargePng from '../../images/waterCharge.png'
+import elChargePng from '../../images/elCharge.png'
 export default {
     data(){
         return{
             hasGetData: true,
+            showConfig: {
+                rent: {
+                    isAddToPayment: false,
+                    billTitle: '房租',
+                    billImgUrl: rentPng
+                },
+                water: {
+                    isAddToPayment: false,
+                    billTitle: '水费',
+                    billImgUrl: waterChargePng
+                },
+                electric: {
+                    isAddToPayment: false,
+                    billTitle: '电费',
+                    billImgUrl: elChargePng
+                }
+            },
             bill: {
                 rent: [
 
@@ -44,9 +63,7 @@ export default {
             },
             tenementID: '',
             user_id:'',
-            rentImgUrl: '',
-            waterImgUrl: '',
-            elImgUrl:''
+            totalCost: 0
         }
     },
     mounted(){
@@ -56,8 +73,7 @@ export default {
     },
     mixins: [],
     components:{
-        headTop,
-        shopList 
+        headTop 
     },
 
     computed:{
@@ -89,15 +105,6 @@ export default {
                
             // }
         },
-        getBillType(type){ 
-            return type === 'rent' ? '房租' : (type === 'water' ? '水费' : '电费')
-        }, 
-        getBillImg(type){
-            return type === 'rent' ? '../../images/rent.png' : (type === 'water' ? '../../images/waterCharge.png' : '../../images/elCharge.png ')
-        },
-        getAddorRemoveImg(type){    
-            return type === 'rent' ? this.rentImgUrl : (type === 'water' ? this.waterImgUrl : this.elImgUrl)     
-        },
         getBillTotalCost(billArr){
             let totalCost = 0
             billArr.map(function(bill){
@@ -118,18 +125,13 @@ export default {
         addOrRemoveBillList(type){
             console.log("addOrRemoveBillList")
             console.log(type)
-            switch(type) {
-                case 'rent':
-                    this.rentImgUrl = this.rentImgUrl === '../../images/add.png' ? '../../images/remove.png' : this.rentImgUrl
-                break
-                case 'water':
-                    this.waterImgUrl= this.waterImgUrl=== '../../images/add.png' ? '../../images/remove.png' : this.waterImgUrl
-                break
-                case 'electric':
-                    this.elImgUrl = this.elImgUrl === '../../images/add.png' ? '../../images/remove.png' : this.elImgUrl
-                default:
-                    console.log(type)
-            }                   
+            if(!this.showConfig[type].isAddToPayment) {
+                this.totalCost = this.totalCost + this.getBillTotalCost(this.bill[type])
+            }
+            else {
+                this.totalCost = this.totalCost - this.getBillTotalCost(this.bill[type])
+            }
+            this.showConfig[type].isAddToPayment = !this.showConfig[type].isAddToPayment 
         }
     },
     watch: {
