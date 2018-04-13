@@ -7,7 +7,7 @@
     	<div v-else class="tenement_list_container">
 	    	<tenement-list></tenement-list>
     	</div>
-    	<foot-guide></foot-guide>
+    	<foot-guide selectedItem='order'></foot-guide>
     </div>    	
 </template>
 

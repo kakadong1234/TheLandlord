@@ -1,20 +1,28 @@
 <template>
     <section id='foot_guide'>
         <section @click = "gotoAddress({path: '/lhome', query: {geohash}})" class="guide_item">
-            <img src="../../images/homePage.png" class="icon_style">  
-            <span>首页</span>
+            <img v-if="selectedItem!=='home'" src="../../images/homePage.png" class="icon_style">  
+            <img v-else src="../../images/homePageSelected.png" class="icon_style"> 
+            <span v-if="selectedItem!=='home'" :style="{color: '#707070'}">首页</span>
+            <span v-else :style="{color: '#1296db'}">首页</span>
         </section>
         <section @click = "gotoAddress({path: '/lsearch/' + geohash})" class="guide_item">
-            <img src="../../images/search.png" class="icon_style">  
-            <span>搜索</span>
+            <img v-if="selectedItem!=='search'" src="../../images/search.png" class="icon_style">  
+            <img v-else src="../../images/searchSelected.png" class="icon_style"> 
+            <span v-if="selectedItem!=='search'" :style="{color: '#707070'}">搜索</span>
+            <span v-else :style="{color: '#1296db'}">搜索</span>
         </section>
-        <section @click = "gotoAddress('/lorder')" class="guide_item">
-            <img src="../../images/tenement.png" class="icon_style">  
-            <span>租房</span>
+        <section @click = "gotoAddress({path: '/lorder'})" class="guide_item">
+            <img v-if="selectedItem!=='order'" src="../../images/tenement.png" class="icon_style">  
+            <img v-else src="../../images/tenementSelected.png" class="icon_style"> 
+            <span v-if="selectedItem!=='order'" :style="{color: '#707070'}">租房</span>
+            <span v-else :style="{color: '#1296db'}">租房</span>
         </section>
-        <section @click = "gotoAddress('/lprofile')" class="guide_item">
-            <img src="../../images/self.png" class="icon_style">  
-            <span>我的</span>
+        <section @click = "gotoAddress({path: '/lprofile'})" class="guide_item">
+            <img v-if="selectedItem!=='profile'" src="../../images/self.png" class="icon_style">  
+            <img v-else src="../../images/selfSelected.png" class="icon_style"> 
+            <span v-if="selectedItem!=='profile'" :style="{color: '#707070'}">租房</span>
+            <span v-else :style="{color: '#1296db'}">我的</span>
         </section>
     </section>
 </template>
@@ -24,7 +32,6 @@
     export default {
     	data(){
             return{
-                
             }
         },
         created(){
@@ -38,6 +45,7 @@
                 'geohash'
             ]),
         },
+        	props: ['selectedItem'],
         methods: {
         	gotoAddress(path){
         		this.$router.push(path)
@@ -69,12 +77,12 @@
     	flex-direction: column;
     	align-items: center;
 		.icon_style{
-			@include wh(.8rem, .8rem);
-			margin-bottom: .2rem;
+			@include wh(.9rem, .9rem);
 			margin-top: .3rem;
 			fill: #ccc;
 		}
 		span{
+            margin-top: 0.1rem;
 			@include sc(.45rem, #666);
 		}
     }

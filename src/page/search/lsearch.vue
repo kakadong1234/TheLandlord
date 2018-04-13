@@ -50,7 +50,7 @@
             <footer class="clear_history" @click="clearAllHistory">清空搜索历史</footer>
         </section>
         <div class="search_none" v-if="emptyResult">很抱歉！无搜索结果</div>
-        <foot-guide></foot-guide>
+        <foot-guide selectedItem='search'></foot-guide>
     </div>
 </template>
 

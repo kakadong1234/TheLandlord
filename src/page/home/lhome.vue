@@ -19,7 +19,7 @@
 	            </figure>
 	        </a>
         </section>
-        <foot-guide></foot-guide>
+        <foot-guide selectedItem='home'></foot-guide>
     </div>
 </template>
 
