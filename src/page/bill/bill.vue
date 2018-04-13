@@ -33,7 +33,7 @@ export default {
         }
     },
     mounted(){
-        this.tenementID = this.$route.params.orderID
+        this.tenementID = this.$route.params.tenementID
         this.user_id = '123'
         this.initData();
     },
@@ -86,7 +86,9 @@ export default {
 <style lang="scss" scoped>
    @import 'src/style/mixin';
    	.bill_list_container{
-		margin-top: 2.5rem;
+        margin-top:2.5rem;
+        margin-left: 0.4rem;
+        margin-right: 0.4rem;
 		border-top: 0.025rem solid $bc;
 		background-color: #fff;
 		.bill_header{

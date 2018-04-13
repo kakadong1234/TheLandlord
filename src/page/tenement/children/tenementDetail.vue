@@ -69,13 +69,13 @@ export default {
         }
       },
       swiperSlides: [],
-      orderID: this.$route.params.orderID
+      tenementID: this.$route.params.tenementID
     };
   },
 
   mounted() {
     //TODO: 获取 appList
-    getTenemnetDetail(this.orderID).then(res => {
+    getTenemnetDetail(this.tenementID).then(res => {
       this.tenementDetail = res;
       this.swiperSlides = res.imgURLList.map(function(imgURL, index) {
         return {
@@ -153,13 +153,13 @@ export default {
     },
 
     goToBillPage() {
-        console.log("goToBillPage" + this.orderID);
-        this.$router.push('/lorder/' + this.orderID + '/billTotal' );
+        console.log("goToBillPage" + this.tenementID);
+        this.$router.push('/tenement/' + this.tenementID + '/billTotal' );
     },
 
     goToDegreePage() {
         console.log("goToDegreePage");
-        this.$router.push('/lorder/' + this.orderID + '/degree' );
+        this.$router.push('/tenement/' + this.tenementID + '/degree' );
     }
   }
 };

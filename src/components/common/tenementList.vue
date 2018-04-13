@@ -133,7 +133,7 @@ export default {
 
 		goToDetailPage(id) {
 			console.log("goToBillPage " + id);
-        	this.$router.push('/lorder/' + id );
+        	this.$router.push('/tenement/' + id );
 		}
 	},
 	watch: {

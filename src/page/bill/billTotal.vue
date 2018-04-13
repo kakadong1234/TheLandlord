@@ -67,7 +67,7 @@ export default {
         }
     },
     mounted(){
-        this.tenementID = this.$route.params.orderID
+        this.tenementID = this.$route.params.tenementID
         this.user_id = '123'
         this.initData();
     },
@@ -115,7 +115,7 @@ export default {
         goToBillListPage(type){
             console.log("goToBillListPage")
             console.log(type)
-            this.$router.push('/lorder/' + this.tenementID + '/bill')
+            this.$router.push('/tenement/' + this.tenementID + '/bill')
         },
         goToCreateOrderPage(goodsList){
             console.log("goToCreateOrderPage")

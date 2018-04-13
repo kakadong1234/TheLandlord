@@ -12,10 +12,10 @@
             <span v-if="selectedItem!=='search'" :style="{color: '#707070'}">搜索</span>
             <span v-else :style="{color: '#1296db'}">搜索</span>
         </section>
-        <section @click = "gotoAddress({path: '/lorder'})" class="guide_item">
-            <img v-if="selectedItem!=='order'" src="../../images/tenement.png" class="icon_style">  
+        <section @click = "gotoAddress({path: '/tenement'})" class="guide_item">
+            <img v-if="selectedItem!=='tenement'" src="../../images/tenement.png" class="icon_style">  
             <img v-else src="../../images/tenementSelected.png" class="icon_style"> 
-            <span v-if="selectedItem!=='order'" :style="{color: '#707070'}">租房</span>
+            <span v-if="selectedItem!=='tenement'" :style="{color: '#707070'}">租房</span>
             <span v-else :style="{color: '#1296db'}">租房</span>
         </section>
         <section @click = "gotoAddress({path: '/lprofile'})" class="guide_item">

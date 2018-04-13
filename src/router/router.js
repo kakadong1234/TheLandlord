@@ -1,9 +1,9 @@
 import App from '../App'
 const lhome = r => require.ensure([], () => r(require('../page/home/lhome')), 'lhome')
 const lsearch = r => require.ensure([], () => r(require('../page/search/lsearch')), 'lsearch')
-const lorder = r => require.ensure([], () => r(require('../page/order/tenement')), 'lorder')
+const tenement = r => require.ensure([], () => r(require('../page/tenement/tenement')), 'tenement')
 const lprofile = r => require.ensure([], () => r(require('../page/profile/lprofile')), 'lprofile')
-const lorderDetail = r => require.ensure([], () => r(require('../page/order/children/tenementDetail')), 'lorderDetail')
+const tenementDetail = r => require.ensure([], () => r(require('../page/tenement/children/tenementDetail')), 'tenementDetail')
 
 const billTotal = r => require.ensure([], () => r(require('../page/bill/billTotal')), 'billTotal')
 const bill = r => require.ensure([], () => r(require('../page/bill/bill')), 'bill')
@@ -84,36 +84,32 @@ export default [{
 
         //订单列表页
         {
-            path: '/lorder',
-            component: lorder,
-            // children: [{
-            //     path: 'lorderDetail', //订单详情页
-            //     component: lorderDetail,
-            // }, ]
+            path: '/tenement',
+            component: tenement
         },  
         //租房详情
         {
-            path: '/lorder/:orderID',
-            component: lorderDetail
+            path: '/tenement/:tenementID',
+            component: tenementDetail
         },
         //某个房子的水电表度数
         {
-            path: '/lorder/:orderID/degree',
+            path: '/tenement/:tenementID/degree',
             component: degree
         },
         //某个房子的缴费历史
         {
-            path: '/lorder/:orderID/paymentHistory',
+            path: '/tenement/:tenementID/paymentHistory',
             component: paymentHistory
         },
         //账单总计
         {
-            path: '/lorder/:orderID/billTotal',
+            path: '/tenement/:tenementID/billTotal',
             component: billTotal
         },
         //某个房子的账单(水电房)
         {
-            path: '/lorder/:orderID/bill',
+            path: '/tenement/:tenementID/bill',
             component: bill
         },
         //个人信息页

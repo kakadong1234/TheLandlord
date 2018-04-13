@@ -89,7 +89,7 @@ export default {
         }
     },
     mounted(){
-        this.tenementID = this.$route.params.orderID
+        this.tenementID = this.$route.params.tenementID
         this.user_id = '123'
         this.initData();
     },
