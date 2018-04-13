@@ -147,6 +147,9 @@ var sendLogin = (code, mobile, validate_token) => {
 export const getBillList = (tenementID, user_id, status) => {
 	console.log('getBillList')
 	return new Promise(function(reslove, reject){
+	if(!status) {
+		return reslove(ALL_BILL_LIST)
+	}
 	const billList = ALL_BILL_LIST.filter(function(bill){
 		console.log(bill)
 		return bill.status === status 

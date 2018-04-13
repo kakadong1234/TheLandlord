@@ -1,10 +1,25 @@
 <template>
 	<div class="list_container">
-		<ul v-load-more="loaderMoreMethod" v-if="tenementListArr.length" type="1">
-			<div v-for="item in tenementListArr" tag='li' :key="item.ID" class="tenement_li" @click="goToDetailPage(item.ID)">
-			<!-- <router-link :to="{path: 'lorder/' + item.ID}" v-for="item in tenementListArr" tag='li' :key="item.ID" class="tenement_li"> -->
+		<ul v-if="billListArr.length">
+			<section class="charge_container">
+            <div class="bill-div" v-for="item in billListArr" tag='li' :key="item.ID">
+                <img src="../../images/bill.png" class="bill_type_img"> 
+                <span class="bill_momeny_span">
+                    <div class="bill_type_div">编号: {{item.ID}}</div>
+                    <div class="bill_number_div"> 账单期:{{item.actionForBill.startDate}} ~ {{item.actionForBill.endDate}}</div>
+					<div class="bill_number_div"> 付款截止时间:{{item.paymentDeadline}} </div>
+                    <div class="bill_momeny_div">账单费用: ¥{{item.cost}}</div>
+                </span>
+				<span class="tenement_detail_ul">
+					<span class="payStatus">{{item.status }}</span>
+					<img v-if="!item.isAddToPayment" class='add_remove_img' src="../../images/add.png" @click.stop="addOrRemoveBillList(item)">
+                	<img v-else class='add_remove_img' src="../../images/remove.png" @click.stop="addOrRemoveBillList(item)">
+				</span>
+            </div>
+        </section>
+			<!-- <div v-for="item in billListArr" tag='li' :key="item.ID" class="tenement_li" @click="goToDetailPage(item.ID)">
 				<section>
-					<img :src="item.imgURLList[1]" class="tenement_img">
+					<img src="../../images/bill.png" class="tenement_img">
 				</section>
 				<hgroup class="tenement_right">
 					<header class="tenement_detail_header">
@@ -20,16 +35,13 @@
 						<span class="address">地址: {{item.address}}</span>
 					</section>
 				</hgroup>
-			<!-- </router-link> -->
-			</div>
+			</div> -->
 		</ul>
 		<ul v-else class="animation_opactiy">
-			<li class="list_back_li" v-for="item in 10" :key="item">
-				<img src="../../images/shopback.svg" class="list_back_svg">
-			</li>
+			<div class='no_bill'>没有账单</div>
 		</ul>
-		<p v-if="touchend" class="empty_data">没有更多了</p>
-		<aside class="return_top" @click="backTop" v-if="showBackStatus">
+		<!-- <p v-if="touchend" class="empty_data">没有更多了</p> -->
+		<!-- <aside class="return_top" @click="backTop" v-if="showBackStatus">
 			<svg class="back_top_svg">
 				<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#backtop"></use>
 			</svg>
@@ -37,92 +49,51 @@
 		<div ref="abc" style="background-color: red;"></div>
 		<transition name="loading">
 			<loading v-show="showLoading"></loading>
-		</transition>
+		</transition> -->
 	</div>
 </template>
 
 <script>
 
 import {mapState} from 'vuex'
-import {getTenementList} from 'src/service/getData'
+import {getBillList} from 'src/service/getData'
 import {showBack, animate} from 'src/config/mUtils'
-import {loadMore} from './mixin'
-import loading from './loading'
 
 export default {
 	data(){
 		return {
-			offset: 0, // 批次加载店铺列表，每次加载20个 limit = 20
-			tenementListArr:[], // 租房列表数据
+			billListArr:[], // 租房列表数据
 			preventRepeatReuqest: false, //到达底部加载数据，防止重复加载
 			showBackStatus: false, //显示返回顶部按钮
 			showLoading: true, //显示加载动画
-			touchend: false, //没有更多数据
+			// touchend: false, //没有更多数据
 		}
 	},
 	mounted(){
 		this.initData();
 	},
 	components: {
-		loading,
 	},
-	// props: ['restaurantCategoryId', 'restaurantCategoryIds', 'sortByType', 'deliveryMode', 'supportIds', 'confirmSelect'],
-	mixins: [loadMore],
+	mixins: [],
 	computed: {
 		...mapState([
 		]),
 	},
-	updated(){
-		// console.log(this.supportIds, this.sortByType)
-	},
 	methods: {
 		async initData(){
 			//获取数据
-			// let res = await shopList(this.latitude, this.longitude, this.offset, this.restaurantCategoryId);
-			let res = await getTenementList('123' ,this.offset);
-			this.tenementListArr = [...res];
-			console.log(res.length)
-			if (res.length < 20) {
-				this.touchend = true;
-			}
+			let res = await getBillList('123');
+			res.map(function(bill) {
+				bill.isAddToPayment = false
+				return bill
+			})
+			this.billListArr = [...res];
 			this.hideLoading();
 			console.log(this.preventRepeatReuqest)
 			//开始监听scrollTop的值，达到一定程度后显示返回顶部按钮
 			showBack(status => {
 				this.showBackStatus = status;
 			});
-		},
-		//到达底部加载更多数据
-		async loaderMoreMethod(){
-			console.log('**************************loderMoreMethod------------------')
-			console.log(this.offset)
-			if (this.touchend) {
-				console.log('*************************endTouch')
-				return
-			}
-			//防止重复请求
-			if (this.preventRepeatReuqest) {
-				console.log('*************************preventRepeatReuqest')
-				return 
-			}
-			this.showLoading = true;
-			this.preventRepeatReuqest = true;
-
-			//数据的定位加20位
-			console.log('old offset:' + this.offset)
-			this.offset = this.offset + 20;
-			console.log('new offset:' + this.offset)
-			// let res = await shopList(this.latitude, this.longitude, this.offset, this.restaurantCategoryId);
-			let res = await getTenementList('123' ,this.offset);
-			console.log(res)
-			this.hideLoading();
-			this.tenementListArr = [...this.tenementListArr, ...res];
-			//当获取数据小于20，说明没有更多数据，不需要再次请求数据
-			if (res.length < 20) {
-				this.touchend = true;
-				return
-			}
-			this.preventRepeatReuqest = false;
 		},
 		//返回顶部
 		backTop(){
@@ -136,7 +107,19 @@ export default {
 		goToDetailPage(id) {
 			console.log("goToBillPage " + id);
         	this.$router.push('/lorder/' + id );
-		}
+		},
+
+		addOrRemoveBillList(item){
+			console.log("addOrRemoveBillList")
+			this.$emit('bill-for-order', item)
+			item.isAddToPayment = !item.isAddToPayment
+            this.billListArr = this.billListArr.map(function(bill){
+				if(bill.ID === item.ID) {
+					return item
+				}
+				return bill
+			})
+        }
 	},
 	watch: {
 	}
@@ -148,70 +131,58 @@ export default {
 	.list_container{
 		background-color: #fff;
 		margin-bottom: 2rem;
-	}
-	.tenement_li{
-		display: flex;
-		border-bottom: 0.025rem solid #f1f1f1;
-		padding: 0.7rem 0.4rem;
-	}
-	.tenement_img{
-		@include wh(2.7rem, 2.7rem);
-		display: block;
-		margin-right: 0.4rem;
+		.charge_container{
+    	background:$fc; 
+    	.bill-div{
+        display:flex;
+        border-bottom:1px solid #f1f1f1;
+        justify-content:space-between;
+        .bill_type_img{
+            margin-top:0.2rem;
+            @include wh(2.8rem,2.8rem);
+        }
+        .bill_momeny_span{
+            margin-top:0.4rem;
+            width: 100rem;
+            .bill_type_div{
+                height: 1rem;
+                @include sc(0.8rem,#333);
+            }
+            .bill_number_div{
+             margin-top:0.2rem;
+             height: 0.5rem;
+             @include sc(.4rem,#333);
+            }
+            .bill_momeny_div {
+                margin-top:0.2rem;
+                height: 0.5rem;
+                @include sc(.4rem,#333);
+            }
+		}
+		.tenement_detail_ul{
+			transform: scale(.8);
+			margin-right: -0.3rem;
+			.payStatus{
+				@include sc(0.5rem, #999);
+				border: 0.025rem solid #f1f1f1;
+				padding: 0 0.04rem;
+				border-radius: 0.08rem;
+				margin-left: 0.05rem;
+			}
+			.add_remove_img{
+            	margin-top:1rem;
+            	margin-right:0.5rem;
+            	@include wh(1.5rem,1.5rem);
+        	}
+		}
+        }
+    }
 	}
 	.list_back_li{
 		height: 4.85rem;
 		.list_back_svg{
 			@include wh(100%, 100%)
 		}
-	}
-	.tenement_right{
-		flex: auto;
-		.tenement_detail_header{
-			@include fj;
-			align-items: center;
-			.tenement_title{
-				width: 8.5rem;
-				color: #333;
-				padding-top: .01rem;
-				@include font(0.65rem, 0.65rem, 'PingFangSC-Regular');
-				font-weight: 700;
-			}
-			.tenement_detail_ul{
-				display: flex;
-				transform: scale(.8);
-				margin-right: -0.3rem;
-				.payStatus{
-					@include sc(0.5rem, #999);
-					border: 0.025rem solid #f1f1f1;
-					padding: 0 0.04rem;
-					border-radius: 0.08rem;
-					margin-left: 0.05rem;
-				}
-			}
-		}
-		.fee_address{
-			margin-top: 0.52rem;
-			@include fj;
-			.fee{
-				// transform: scale(.9);
-				@include sc(0.3rem, #666);
-			}
-			.address{
-				// transform: scale(.9);
-				@include sc(0.3rem, #666);
-			}
-		}
-	}
-	.loader_more{
-		@include font(0.6rem, 3);
-		text-align: center;
-	    color: #999;
-	}
-	.empty_data{
-		@include sc(0.5rem, #666);
-		text-align: center;
-		line-height: 2rem;
 	}
 	.return_top{
 		position: fixed;

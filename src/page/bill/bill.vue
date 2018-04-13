@@ -1,17 +1,15 @@
 <template>
     <div class="profile_page">
         <head-top go-back='true' head-title="账单"></head-top>
-        <div class="shop_list_container" >
-	    	<header class="shop_header">
-	    		<svg class="shop_icon">
-	    			<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#shop"></use>
-	    		</svg>
-	    		<span class="shop_header_title">房租</span>
+        <div class="bill_list_container" >
+	    	<header class="bill_header">
+                <img class='bill_icon' src="../../images/rent.png">
+	    		<span class="bill_header_title">房租</span>
 	    	</header>
-	        <!-- <shop-list v-if="hasGetData"></shop-list> -->
+	        <bill-list @bill-for-order="changeAllBillNumber"></bill-list >
     	</div>
         <section class="bill_container">
-            <div class="bill_num">共5张账单,应付¥1000.1</div>
+            <div class="bill_num">总计:¥{{totalCost}}</div>
             <div class="bill_title" @click="goToCreateOrderPage"> 去缴费 </div>
         </section>
         
@@ -21,24 +19,15 @@
 <script>
 import headTop from 'src/components/header/head'
 import {mapState, mapMutations} from 'vuex'
-import shopList from 'src/components/common/shoplist'
+import billList from 'src/components/common/billList'
 import {getBillList} from 'src/service/getData'
 
 export default {
     data(){
         return{
             hasGetData: true,
-            bill: {
-                rent: [
-
-                ],
-                electric: [
-
-                ],
-                water: [
-
-                ]
-            },
+            totalCost: 0,
+            billArr: [],
             tenementID: '',
             user_id:''
         }
@@ -51,7 +40,7 @@ export default {
     mixins: [],
     components:{
         headTop,
-        shopList 
+        billList 
     },
 
     computed:{
@@ -68,29 +57,23 @@ export default {
             console.log('initData')
             console.log(this.userInfo)
             // if (this.userInfo && this.userInfo.user_id) {
-                const billList = await getBillList(this.tenementID, this.user_id, '未缴费');
+                const billList = await getBillList(this.tenementID, this.user_id);
                 console.log(billList)
-                this.bill.rent = billList.filter(function(bill) {
-                    return bill.type = 'rent'
-                })
-                this.bill.electric = billList.filter(function(bill) {
-                    return bill.type = 'electric'
-                })
-                this.bill.water = billList.filter(function(bill) {
-                    return bill.type = 'water'
-                })
             // }else{
                
             // }
         },
-        goToDetailBillPage(id){
-            console.log("goToDetailBillPage")
-            console.log(id)
-            // this.$router.push('/bill' );
+        changeAllBillNumber(item){
+            console.log(item)
+            if(!item.isAddToPayment) {
+                this.totalCost = this.totalCost + item.cost
+            }
+            else {
+                this.totalCost = this.totalCost - item.cost
+            }
         },
         goToCreateOrderPage(goodsList){
             console.log("goToCreateOrderPage")
-            console.log(goodsList)
             // this.$router.push('/order' );
         }
     },
@@ -102,18 +85,18 @@ export default {
 
 <style lang="scss" scoped>
    @import 'src/style/mixin';
-   	.shop_list_container{
+   	.bill_list_container{
 		margin-top: 2.5rem;
 		border-top: 0.025rem solid $bc;
 		background-color: #fff;
-		.shop_header{
-			.shop_icon{
+		.bill_header{
+			.bill_icon{
 				fill: #999;
 				margin-left: 0.6rem;
 				vertical-align: middle;
 				@include wh(0.6rem, 0.6rem);
 			}
-			.shop_header_title{
+			.bill_header_title{
 				color: #999;
 				@include font(0.55rem, 1.6rem);
 			}

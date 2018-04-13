@@ -115,7 +115,7 @@ export default {
         goToBillListPage(type){
             console.log("goToBillListPage")
             console.log(type)
-            // this.$router.push('/bill' );
+            this.$router.push('/lorder/' + this.tenementID + '/bill')
         },
         goToCreateOrderPage(goodsList){
             console.log("goToCreateOrderPage")
