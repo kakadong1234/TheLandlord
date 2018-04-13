@@ -20,7 +20,7 @@
         </section>
         <section class="charge_container">
             <div class="myorder-div" @click="goToBillPage">
-                <span>账单</span>
+                <span>生活缴费</span>
                     <span class="myorder-divsvg">
                         <svg fill="#bbb">
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
@@ -154,7 +154,7 @@ export default {
 
     goToBillPage() {
         console.log("goToBillPage" + this.orderID);
-        this.$router.push('/lorder/' + this.orderID + '/bill' );
+        this.$router.push('/lorder/' + this.orderID + '/billTotal' );
     },
 
     goToDegreePage() {

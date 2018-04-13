@@ -20,6 +20,7 @@
         <slot name="msite-title"></slot>
         <slot name="changecity"></slot>
         <slot name="changeLogin"></slot>
+        <slot name = "showBillList"></slot>
     </header>
 </template>
 

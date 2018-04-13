@@ -107,7 +107,7 @@ export default {
 			//获取数据
 			let res = await shopList(this.latitude, this.longitude, this.offset, this.restaurantCategoryId);
 			this.shopListArr = [...res];
-			if (res.length < 5) {
+			if (res.length < 5) {	
 				this.touchend = true;
 			}
 			this.hideLoading();

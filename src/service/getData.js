@@ -1,6 +1,8 @@
 import fetch from '../config/fetch'
 import {getStore} from '../config/mUtils'
-
+/**
+ * 租房 mock 数据
+ */
 const ALL_TENEMENT_LIST = []
 for(var i = 1; i <= 300; i++) {
 	//基础属性
@@ -11,8 +13,8 @@ for(var i = 1; i <= 300; i++) {
 		address: '上海市浦东新区金科路' + i + '号',
 		rentForMonth: 200.2,
 		imgURLList: [
+			"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2313411144,683196051&fm=27&gp=0.jpg",
 			"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523273935514&di=51911299a2d0fea0ee8f73b739a6a0c7&imgtype=0&src=http%3A%2F%2Fpic.90sjimg.com%2Fdesign%2F00%2F57%2F93%2F24%2Fs_1024_58bd1f5f4d5a6.png",
-			"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2313411144,683196051&fm=27&gp=0.jpg"
 		]
 	}
 	tenement.status = i % 2 // 0表示未租, 1表示已租
@@ -64,6 +66,67 @@ for(var i = 1; i <= 300; i++) {
 }
 
 /**
+ * 账单 mock 数据
+ */
+const ALL_BILL_LIST = []
+for(var i=1; i<=30; i++) {
+	let bill = {
+		ID: i,
+		// created: '2017-09-21',
+		paymentDeadline: '2017-09-26', 
+		actionForBill:{
+			startDate: '2017-09-27',
+			endDate: '2017-10-27',
+		}
+	}
+	bill.status = i%2 === 0 ? '已缴费' : '未缴费'
+	let type
+	switch (i % 3) {
+		case 0: 
+		type = 'rent'
+		break
+		case 1: 
+		type = 'electric'
+		break
+		case 2: 
+		type = 'water'
+		break
+		default:
+		console.log(i % 3)
+	}
+	bill.type = type
+	if(bill.type === 'electric') {
+		bill.actionForBill.startDegress = 3232.1
+		bill.actionForBill.endDegress = 3555.1,
+		bill.actionForBill.price = 5;
+	}
+	if(bill.type === 'water') {
+		bill.actionForBill.startDegress = 232.1
+		bill.actionForBill.endDegress = 255.1,
+		bill.actionForBill.price = 10;
+	}
+	bill.cost = bill.type === 'rent' ? 300.1 : (bill.actionForBill.endDegress - bill.actionForBill.startDegress) * bill.actionForBill.price
+	ALL_BILL_LIST.push(bill)
+}
+
+/**
+ * 用户 mock 数据
+ */
+const ALL_USER_LIST = []
+
+/**
+ * 订单 mock 数据
+ */
+const ALL_ORDER_LIST = []
+
+/**
+ * 支付 mock 数据
+ */
+const ALL_PAYMENT_LIST = []
+
+
+
+/**
  * 手机号登录
  */
 
@@ -79,6 +142,20 @@ var sendLogin = (code, mobile, validate_token) => {
 };
 
 /**
+ * 获取账单列表
+ */
+export const getBillList = (tenementID, user_id, status) => {
+	console.log('getBillList')
+	return new Promise(function(reslove, reject){
+	const billList = ALL_BILL_LIST.filter(function(bill){
+		console.log(bill)
+		return bill.status === status 
+	})
+	reslove(billList)
+	})
+};
+
+/**
  * 获取租房列表
  */
 export const getTenementList = (user_id, offset) => {
@@ -90,7 +167,7 @@ export const getTenementList = (user_id, offset) => {
 		return tenement.status === 1 
 	})
 	console.log(tenementList.length)
-		reslove(tenementList.slice(offset, offset + limit))
+	reslove(tenementList.slice(offset, offset + limit))
 	})
 };
 

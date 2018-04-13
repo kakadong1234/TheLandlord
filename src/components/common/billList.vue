@@ -2,8 +2,9 @@
 	<div class="list_container">
 		<ul v-load-more="loaderMoreMethod" v-if="tenementListArr.length" type="1">
 			<div v-for="item in tenementListArr" tag='li' :key="item.ID" class="tenement_li" @click="goToDetailPage(item.ID)">
+			<!-- <router-link :to="{path: 'lorder/' + item.ID}" v-for="item in tenementListArr" tag='li' :key="item.ID" class="tenement_li"> -->
 				<section>
-					<img :src="item.imgURLList[0]" class="tenement_img">
+					<img :src="item.imgURLList[1]" class="tenement_img">
 				</section>
 				<hgroup class="tenement_right">
 					<header class="tenement_detail_header">
@@ -19,6 +20,7 @@
 						<span class="address">地址: {{item.address}}</span>
 					</section>
 				</hgroup>
+			<!-- </router-link> -->
 			</div>
 		</ul>
 		<ul v-else class="animation_opactiy">

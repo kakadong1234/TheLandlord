@@ -1,6 +1,6 @@
 <template>
     <div class="profile_page">
-        <head-top go-back='true' head-title="账单"></head-top>
+        <head-top go-back='true' head-title="缴费记录"></head-top>
         <div class="shop_list_container" >
 	    	<header class="shop_header">
 	    		<svg class="shop_icon">
@@ -10,6 +10,51 @@
 	    	</header>
 	        <!-- <shop-list v-if="hasGetData"></shop-list> -->
     	</div>
+        <!-- <section class="charge_container">
+            <div class="myorder-div" @click="goToDetailBillPage(123)">
+                <span class="bill_type_img_span">
+                    <img src="../../images/rent.png" class="bill_type_img"> 
+                </span>
+                <span class="bill_momeny_span">
+                    <div>房租</div>
+                    <div class="bill_momeny_div">2张账单,总共¥200</div>
+                </span>
+                <span class="myorder-divsvg">
+                    <svg fill="#bbb">
+                        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+                    </svg>
+                </span>
+            </div>
+            <div class="myorder-div" @click="goToDetailBillPage(123)"> 
+                <span class="bill_type_img_span">
+                    <img src="../../images/elCharge.png" class="bill_type_img"> 
+                </span>
+                <span class="bill_momeny_span">
+                    <div>电费</div>
+                    <div class="bill_momeny_div">2张账单,总共¥100.1</div>
+                </span>
+                    <span class="myorder-divsvg">
+                        <svg fill="#bbb">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+                    </svg>
+                </span>
+            </div>
+            <div class="myorder-div" @click="goToDetailBillPage(123)"> 
+                <span class="bill_type_img_span">
+                    <img src="../../images/waterCharge.png" class="bill_type_img"> 
+                </span>
+                <span class="bill_momeny_span">
+                    <div>水费</div>
+                    <div class="bill_momeny_div">1张账单,总共¥20.1</div>
+                </span>
+                    <span class="myorder-divsvg">
+                        <svg fill="#bbb">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
+                    </svg>
+                </span>
+            </div>
+
+        </section> -->
         <section class="bill_container">
             <div class="bill_num">共5张账单,应付¥1000.1</div>
             <div class="bill_title" @click="goToCreateOrderPage"> 去缴费 </div>
@@ -119,6 +164,40 @@ export default {
 			}
 		}
 	}
+//    .charge_container{
+//     margin-top:3.0rem;
+//     margin-left: 0.4rem;
+//     margin-right: 0.4rem;
+//     background:$fc; 
+//     .myorder-div{
+//         padding-left:1.6rem;
+//         display:flex;
+//         @include wh(100%, 3rem);
+//         border-bottom:1px solid #f1f1f1;
+//         padding:.433333rem .266667rem .433333rem 0;
+//         @include sc(.7rem,#333);
+//         justify-content:space-between;
+//         .bill_type_img_span{
+//             @include wh(2rem,2rem);
+//             .bill_type_img{
+//                 @include wh(100%,100%);
+//             }
+//         }
+//         .bill_momeny_span{
+//             margin-top:0.2rem;
+//             @include wh(12rem,100%);
+//             .bill_momeny_div {
+//                 @include sc(.35rem,#333);
+//             }
+//         }
+//         .myorder-divsvg{
+//             @include wh(.46667rem,.466667rem);
+//             svg{
+//                 @include wh(100%,100%);
+//             }
+//         }
+//         }
+//     }
     .bill_container{
     position: fixed;
     z-index: 100;
