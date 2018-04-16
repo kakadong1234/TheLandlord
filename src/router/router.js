@@ -9,7 +9,9 @@ const billTotal = r => require.ensure([], () => r(require('../page/bill/billTota
 const bill = r => require.ensure([], () => r(require('../page/bill/bill')), 'bill')
 const paymentHistory =  r => require.ensure([], () => r(require('../page/payment/paymentHistory')), 'paymentHistory')
 const degree = r => require.ensure([], () => r(require('../page/degree/degree')), 'degree')
-
+const myorder = r => require.ensure([], () => r(require('../page/myorder/myorder')), 'myorder')
+const myorderDetail = r => require.ensure([], () => r(require('../page/myorder/children/myorderDetail')), 'myorderDetail')
+const myconfirmOrder = r => require.ensure([], () => r(require('../page/confirmOrder/myconfirmOrder')), 'myconfirmOrder')
 
 const home = r => require.ensure([], () => r(require('../page/home/home')), 'home')
 const city = r => require.ensure([], () => r(require('../page/city/city')), 'city')
@@ -112,6 +114,46 @@ export default [{
             path: '/tenement/:tenementID/bill',
             component: bill
         },
+        //订单列表页
+        {
+            path: '/myorder',
+            component: myorder,
+            children: [{
+                path: 'myorderDetail', //订单详情页
+                component: myorderDetail,
+            }, ]
+        },
+
+                //确认订单页
+                {
+                    path: '/myconfirmOrder',
+                    component: myconfirmOrder,
+                    children: [{
+                        path: 'remark', //订单备注
+                        component: remark,
+                    }, {
+                        path: 'invoice', //发票抬头
+                        component: invoice,
+                    }, {
+                        path: 'payment', //付款页面
+                        component: payment,
+                    }, {
+                        path: 'userValidation', //用户验证
+                        component: userValidation,
+                    }, {
+                        path: 'chooseAddress', //选择地址
+                        component: chooseAddress,
+                        children: [{
+                            path: 'addAddress', //添加地址
+                            component: addAddress,
+                            children: [{
+                                path: 'searchAddress', //搜索地址
+                                component: searchAddress,
+                            }]
+                        }, ]
+                    }, ]
+                },
+
         //个人信息页
         {
             path: '/lprofile',

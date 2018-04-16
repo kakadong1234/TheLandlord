@@ -117,10 +117,22 @@ export default {
             console.log(type)
             this.$router.push('/tenement/' + this.tenementID + '/bill')
         },
-        goToCreateOrderPage(goodsList){
+        goToCreateOrderPage(){
             console.log("goToCreateOrderPage")
-            console.log(goodsList)
-            // this.$router.push('/order' );
+            if(this.totalCost > 0) {
+                let goodList = []
+                if(this.showConfig.rent.isAddToPayment) {
+                    goodList = goodList.concat(this.bill.rent)
+                }
+                if(this.showConfig.electric.isAddToPayment) {
+                    goodList = goodList.concat(this.bill.electric)
+                }
+                if(this.showConfig.water.isAddToPayment) {
+                    goodList = goodList.concat(this.bill.water)
+                }
+                console.log(goodList)
+                this.$router.push('/myconfirmOrder')
+            }
         },
         addOrRemoveBillList(type){
             console.log("addOrRemoveBillList")
