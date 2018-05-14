@@ -3,9 +3,7 @@
         <slot name='logo'></slot>
         <slot name='search'></slot>
         <section class="head_goback" v-if="goBack" @click="$router.go(-1)">
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" version="1.1">
-                <polyline points="12,18 4,9 12,0" style="fill:none;stroke:rgb(255,255,255);stroke-width:2"/>
-            </svg>
+            <img src="../../images/back.png" class="back_img">
         </section>
         <router-link :to="userInfo? '/profile':'/login'" v-if='signinUp' class="head_login">
             <svg class="user_avatar" v-if="userInfo">
@@ -21,6 +19,7 @@
         <slot name="changecity"></slot>
         <slot name="changeLogin"></slot>
         <slot name = "showBillList"></slot>
+        <slot name = "releaseHouse"></slot>
     </header>
 </template>
 
@@ -57,7 +56,7 @@
     @import '../../style/mixin';
 
     #head_top{
-        background-color: $blue;
+        background-color: #f2f2f2;
         position: fixed;
         z-index: 100;
         left: 0;
@@ -69,10 +68,13 @@
         @include wh(0.6rem, 1rem);
         line-height: 2.2rem;
         margin-left: .4rem;
+        .back_img{
+            @include wh(1rem, 1rem);
+        }
     }
     .head_login{
         right: 0.55rem;
-        @include sc(0.65rem, #fff);
+        @include sc(0.65rem, black);
         @include ct;
         .login_span{
             color: #fff;
@@ -85,10 +87,10 @@
     .title_head{
         @include center;
         width: 50%;
-        color: #fff;
+        color: black;
         text-align: center;
         .title_text{
-            @include sc(0.8rem, #fff);
+            @include sc(0.8rem, black);
             text-align: center;
             font-weight: bold;
         }

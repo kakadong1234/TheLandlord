@@ -1,6 +1,6 @@
 <template>
     <div class="profile_page">
-        <head-top go-back='true' :head-title="profiletitle"></head-top>
+        <head-top :head-title="profiletitle"></head-top>
         <section>
             <section class="profile-number">
                 <router-link :to="userInfo&&userInfo.user_id? '/profile/info' : '/login'" class="profile-link">
@@ -148,7 +148,7 @@ import {getImgPath} from 'src/components/common/mixin'
 export default {
     data(){
         return{
-            profiletitle: '我的',
+            profiletitle: '个人中心',
             username: '登录/注册',           //用户名
             resetname: '',
             mobile: '暂无绑定手机号',             //电话号码
