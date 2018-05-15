@@ -20,6 +20,7 @@
 				<div class="operation_div"> 
 					<div v-if="leaseStatus === '待出租'" class="edit_btn" @click.stop="editPage(item)"> 编辑 </div>
 					<div v-if="leaseStatus === '待出租'" class="delete_btn" @click.stop="delPage(item)"> 删除 </div>
+					<div v-if="leaseStatus === '出租中'" class="detail_btn" @click.stop="detailPage(item)"> 出租详情 </div>
 					<div v-if="leaseStatus === '出租中'" class="agress_throw_lease_btn" @click.stop="agressthrowLease(item)"> 同意退租 </div>
 					<div v-if="leaseStatus === '已删除'" class="recovery_btn" @click.stop="recovery(item)"> 恢复 </div>
 				</div>
@@ -143,6 +144,9 @@ export default {
 	delPage(item){
 		console.log('delPage')
 	}, 
+	detailPage(item){
+		console.log('detailPage')
+	},
 	agressthrowLease(item){
 		console.log('agressthrowLease')
 	},
@@ -230,13 +234,22 @@ export default {
 		background: #cc0001;
 		border-radius: 0.08rem;
     }
-    .agress_throw_lease_btn {
-		margin-left: 11.75rem;
+	.detail_btn{
+		margin-left: 7.5rem;
 		@include sc(0.6rem, white);
 		@include wh(4rem, 1.2rem);
 		line-height: 1.2rem;
 		text-align: center;
 		background: #9cdcfe;
+		border-radius: 0.08rem;
+	}
+    .agress_throw_lease_btn {
+		margin-left: 0.25rem;
+		@include sc(0.6rem, white);
+		@include wh(4rem, 1.2rem);
+		line-height: 1.2rem;
+		text-align: center;
+		background: #cc0001;
 		border-radius: 0.08rem;
     }
     .recovery_btn {
