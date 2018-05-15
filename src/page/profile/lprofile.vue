@@ -54,7 +54,7 @@
                         </svg>
                     </aside>
                     <div class="myorder-div">
-                        <span>我的房源</span>
+                        <span>我的收藏</span>
                         <span class="myorder-divsvg">
                             <svg fill="#bbb">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
@@ -105,7 +105,7 @@
                         </svg>
                     </aside>
                     <div class="myorder-div">
-                        <span>服务中心</span>
+                        <span>意见反馈</span>
                         <span class="myorder-divsvg">
                             <svg fill="#bbb">
                                 <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
@@ -113,22 +113,6 @@
                         </span>
                     </div>
                 </router-link>
-                <!-- 下载饿了么APP -->
-                <!-- <router-link to='/download' class="myorder">
-                    <aside>
-                        <svg fill="#3cabff">
-                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#download"></use>
-                        </svg>
-                    </aside>
-                    <div class="myorder-div" style="border-bottom:0;">
-                        <span>下载饿了么APP</span>
-                        <span class="myorder-divsvg">
-                            <svg fill="#bbb">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right"></use>
-                            </svg>
-                        </span>
-                    </div>
-                </router-link> -->
             </section>
         </section>
         <foot-guide selectedItem='profile'></foot-guide>
@@ -229,7 +213,7 @@ export default {
             -webkit-box-align: center;
             -ms-flex-align: center;
             align-items: center;
-            background:$blue;
+            background:#b0aeb0;
             padding: .666667rem .6rem;
             .privateImage{
                 display:inline-block;
