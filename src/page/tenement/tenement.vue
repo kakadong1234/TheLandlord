@@ -3,9 +3,9 @@
     	<head-top head-title="我的房源">
             <div slot="releaseHouse" class="release_house_btn"  @click.stop="goToReleaseHousePage">发布房源</div>
         </head-top>
-        <type-bar typeList="typeList"></type-bar>
+        <type-bar :typeList="typeList" @selected-type-change="selectedTypeChange" class="type_bar"></type-bar>
     	<div class="tenement_list_container">
-	    	<tenement-list></tenement-list>
+	    	<house-list :leaseStatus="leaseStatus"></house-list>
     	</div>
     	<foot-guide selectedItem='tenement'></foot-guide>
     </div>    	
@@ -15,12 +15,13 @@
 import {mapState, mapMutations} from 'vuex'
 import headTop from 'src/components/header/head'
 import footGuide from 'src/components/footer/lfootGuide'
-import {tenementList} from 'src/components/common/tenementList'
-import {typeBar} from 'src/components/common/typeBar'
+import houseList from 'src/components/common/houseList'
+import typeBar from 'src/components/common/typeBar'
 
 export default {
 	data(){
         return {
+            leaseStatus:'待出租',
             typeList: [
                 {
                     txt: '待出租'
@@ -42,7 +43,7 @@ export default {
     components: {
 		headTop,
 		footGuide,
-        tenementList,
+        houseList,
         typeBar
     },
     computed: {
@@ -57,12 +58,13 @@ export default {
         goToReleaseHousePage(){
             console.log('go to release house page')
         },
-    },
-    watch: {
+
         selectedTypeChange(type){
             console.log('type is ' + type)
-            // 
+            this.leaseStatus = type
         }
+    },
+    watch: { 
     }
 }
 
@@ -75,9 +77,10 @@ export default {
         @include sc(0.6rem, black);
         @include ct;
     }
+    .type_bar{
+        margin-top: 2rem;
+    }
 	.tenement_list_container{
-		// margin-top: .4rem;
-		margin-top: 1.95rem;
 		border-top: 0.025rem solid $bc;
 		background-color: #fff;
 	}
